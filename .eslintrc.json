@@ -1,0 +1,53 @@
+{
+    "env": {
+      "browser": true,
+      "es2021": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module",
+      "overrides": [
+        {
+          "files": [
+            "*.yaml",
+            "*.yml"
+          ],
+          "parser": "yaml-eslint-parser"
+        }
+      ]
+    },
+    "plugins": [
+      "@typescript-eslint",
+      "json-format",
+      "react-hooks"
+    ],
+    "extends": [
+      "standard",
+      "plugin:markdown/recommended",
+      "plugin:yml/standard"
+    ],
+    "rules": {
+      "react-hooks/rules-of-hooks": "error",
+      "no-useless-catch": "off",
+      "indent": [
+        "error",
+        2
+      ],
+      "sort-imports": [
+        "error",
+        {
+          "ignoreCase": false,
+          "ignoreDeclarationSort": true,
+          "ignoreMemberSort": false,
+          "memberSyntaxSortOrder": [
+            "none",
+            "all",
+            "multiple",
+            "single"
+          ],
+          "allowSeparatedGroups": true
+        }
+      ]
+    }
+  }
