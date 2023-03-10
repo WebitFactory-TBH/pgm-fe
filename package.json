@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc && vite build",
-    "dev": "vite",
+    "dev": "vite --port 3002",
     "format": "eslint . --ext .ts,.tsx,.js,.json,.md",
     "format:fix": "eslint . --fix --ext .ts,.tsx,.js,.json,.md",
     "prepare": "husky install",
@@ -23,7 +23,9 @@
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-query": "^3.39.3",
     "react-router": "^6.8.2",
+    "react-router-dom": "^6.8.2",
     "sass": "^1.56.2",
     "tailwindcss": "^3.2.7"
   },
