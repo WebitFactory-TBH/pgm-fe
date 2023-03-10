@@ -12,7 +12,7 @@
     "preview": "vite preview"
   },
   "lint-staged": {
-    "*.{ts,js,json,md}": "eslint"
+    "*.{ts,tsx,js,json,md}": "eslint"
   },
   "dependencies": {
     "@multiversx/sdk-dapp": "^2.10.7",
