@@ -17,7 +17,7 @@ export default class EthContract implements ContractConnectI {
   connectToContract(accountAddress: string) {
     this._web3.eth.defaultAccount = accountAddress;
   }
-  
+
   createPaymentLink() {}
 
   completePayment() {}
@@ -25,5 +25,4 @@ export default class EthContract implements ContractConnectI {
   cancelPayment() {}
 
   getRequiredAmount() {}
-
 }
