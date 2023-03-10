@@ -47,8 +47,9 @@ const reducer = (state: User, action: any) => {
 const UserContext = React.createContext<IUserContext>(defaultState);
 
 const UserProvider = (props: UserProviderProps) => {
-  const { children, initialValue } = props;
-  const [state, dispatch] = React.useReducer(reducer, initialValue);
+  const { children } = props;
+  // TODO: aici ar trb sa ia user din local storage la initializare
+  const [state, dispatch] = React.useReducer(reducer, null);
 
   const passValue = {
     user: state,

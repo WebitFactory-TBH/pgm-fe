@@ -1,17 +1,18 @@
 import { useWallet, WalletTypes } from '../context/Wallet';
+import { useUser } from '../context/user';
 import WalletI from '../services/WalletConnect/Wallet.interface';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const { connectWallet } = useWallet();
+  const { setUser } = useUser();
   const navigate = useNavigate();
 
   const login = async (walletType: WalletTypes) => {
     try {
       // 1. get wallet permissions
       const { walletAddress, wallet } = await connectWallet(walletType);
-      console.log({ walletAddress });
 
       // 2. make API call with walletAddr that returns message to sign
       const message = 'Message to sign';
@@ -22,8 +23,13 @@ export default function Login() {
       // 4. save message and signedMessage to localStorage
 
       // 5. get user and save to context
+      const user = {
+        id: '312321',
+        nickname: 'crsssss',
+      };
 
-      // navigate('/');
+      setUser(user);
+      navigate('/');
     } catch (err) {
       console.error(err);
       toast.error((err as any).message);

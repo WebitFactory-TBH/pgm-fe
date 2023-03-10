@@ -80,7 +80,6 @@ export default class Metamask implements WalletI {
         params: [msg, this.walletAddr, 'Random text'],
       });
     } catch (err) {
-      console.log('avem o eroare din metamask');
       throw new Error('User denied message signature.');
     }
 

@@ -1,5 +1,6 @@
 import RequireAuth from './components/RequiresAuth';
 import { WalletProvider } from './context/Wallet';
+import { UserProvider } from './context/user';
 import routes, { RouteI } from './routes';
 import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -10,24 +11,26 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <Router>
-      <WalletProvider>
-        <QueryClientProvider client={queryClient}>
-          <Routes>
-            {routes.map((route: RouteI, index: number) => (
-              <Route
-                path={route.path}
-                key={'route-key-' + index}
-                element={
-                  <RequireAuth requiresAuth={route.requiredAuth}>
-                    <route.component />
-                  </RequireAuth>
-                }
-              />
-            ))}
-            {/* <Route path="*" element={<PageNotFound />} /> */}
-          </Routes>
-        </QueryClientProvider>
-      </WalletProvider>
+      <UserProvider>
+        <WalletProvider>
+          <QueryClientProvider client={queryClient}>
+            <Routes>
+              {routes.map((route: RouteI, index: number) => (
+                <Route
+                  path={route.path}
+                  key={'route-key-' + index}
+                  element={
+                    <RequireAuth requiresAuth={route.requiredAuth}>
+                      <route.component />
+                    </RequireAuth>
+                  }
+                />
+              ))}
+              {/* <Route path="*" element={<PageNotFound />} /> */}
+            </Routes>
+          </QueryClientProvider>
+        </WalletProvider>
+      </UserProvider>
       <Toaster position="top-right" />
     </Router>
   );
