@@ -48,7 +48,7 @@ const WalletProvider = (props: { children: React.ReactNode }) => {
   );
   const [state, dispatch] = React.useReducer(reducer, {
     ...defaultState,
-    walletAddress: walletDataLocal.walletAddress,
+    walletAddress: walletDataLocal?.walletAddress,
   });
 
   const passValue: WalletContextI = {

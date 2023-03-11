@@ -11,6 +11,7 @@ import { useParams } from 'react-router';
 
 export default function CompletePayment() {
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingCancel, setLoadingCancel] = useState<boolean>(false);
   const [wallet, setWallet] = useState<any>();
   const { connectWallet } = useWallet();
   const { connectContract } = useContract();
@@ -21,6 +22,19 @@ export default function CompletePayment() {
     blockchain: 'Ethereum',
     amount: 24,
     receivers: ['1313123', 'dsadas32113'],
+  };
+
+  const cancelPayment = async () => {
+    setLoadingCancel(true);
+    try {
+      const contract = await connectContract('EthContract', '');
+      await (contract as ContractConnectI).cancelPayment(payment.id);
+
+      setLoadingCancel(false);
+    } catch (err) {
+      setLoadingCancel(false);
+      console.error(err);
+    }
   };
 
   const startPaymentProcess = async () => {
@@ -53,11 +67,18 @@ export default function CompletePayment() {
         </div>
 
         <Button
-          style={{ marginRight: '50px' }}
+          style={{ marginRight: '10px' }}
           onClick={startPaymentProcess}
           loading={loading}
         >
           Pay now
+        </Button>
+        <Button
+          style={{ marginRight: '50px' }}
+          onClick={cancelPayment}
+          loading={loadingCancel}
+        >
+          Cancel payment
         </Button>
       </CustomBox>
     </>
