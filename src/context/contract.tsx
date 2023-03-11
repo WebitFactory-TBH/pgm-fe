@@ -51,6 +51,7 @@ const ContractProvider = (props: { children: React.ReactNode }) => {
           type: 'SET_CONTRACT',
           payload: { contract },
         });
+        return contract;
       } catch (err) {
         console.error(err);
         throw new Error('There was an error connecting to smart contract.');
