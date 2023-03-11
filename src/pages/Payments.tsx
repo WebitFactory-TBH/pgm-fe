@@ -1,7 +1,32 @@
+import Button from '../components/shared/Button';
 import Title from '../components/shared/Title';
 import { config } from '../config';
+import { useContract } from '../context/contract';
+import { useWallet } from '../context/wallet';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function Payments() {
+  const [loading, setLoading] = useState<boolean>(false);
+  const { contract, connectContract } = useContract();
+  const { walletAddress } = useWallet();
+
+  const cancelPayment = async (paymentId: string) => {
+    setLoading(true);
+    try {
+      let contractInstance =
+        contract || (await connectContract('EthContract', walletAddress));
+
+      await contractInstance?.cancelPayment(paymentId);
+
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      console.error(err);
+      toast.error((err as any).message);
+    }
+  };
+
   const payments = [
     {
       id: '123',
@@ -59,11 +84,17 @@ export default function Payments() {
               <th scope="col" className="px-6 py-4">
                 Amount
               </th>
-              <th scope="col" className="px-6 py-4 w-52">
+              <th scope="col" className="px-6 py-4 w-44">
+                Payment link
+              </th>
+              <th scope="col" className="px-6 py-4 w-44 text-right">
                 Status
               </th>
-              <th scope="col" className="px-6 py-4 rounded-r-lg w-44">
-                Payment link
+              <th
+                scope="col"
+                className="px-6 py-4 rounded-r-lg w-52 text-right"
+              >
+                Actions
               </th>
             </tr>
           </thead>
@@ -79,10 +110,18 @@ export default function Payments() {
                   </th>
                   <td className="px-6 py-4">{payment.blockchain}</td>
                   <td className="px-6 py-4">{payment.amount}</td>
+                  <td className="px-6 py-4 text-blue-700 hover:underline">
+                    <a
+                      href={`${config.clientBase}payments/complete/${payment.id}`}
+                      target="_blank"
+                    >
+                      Link
+                    </a>
+                  </td>
                   <td className={'px-6 py-4'}>
                     <div
                       className={
-                        'rounded-3xl py-1 px-4 w-fit font-medium ' +
+                        'rounded-3xl py-1 px-4 w-fit font-medium ml-auto ' +
                         (payment.status == 'pending'
                           ? 'bg-gray-300'
                           : payment.status == 'canceled'
@@ -93,13 +132,13 @@ export default function Payments() {
                       {payment.status}
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-blue-700 hover:underline">
-                    <a
-                      href={`${config.clientBase}payments/complete/${payment.id}`}
-                      target="_blank"
+                  <td className="px-6 py-4 flex justify-end">
+                    <Button
+                      onClick={() => cancelPayment(payment.id)}
+                      loading={loading}
                     >
-                      Link
-                    </a>
+                      Cancel payment
+                    </Button>
                   </td>
                 </tr>
               );
