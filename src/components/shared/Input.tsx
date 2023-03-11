@@ -22,7 +22,7 @@ export default function Input({
   const ref = useRef<HTMLInputElement>(null);
   const [focus, setFocus] = useState(ref.current === document.activeElement);
   const [value, setValue] = useState(initValue);
-  const [error, setError] = useState('test err');
+  const [error, setError] = useState('');
 
   const onFocus = useCallback((event: FocusEvent<HTMLInputElement>) => {
     setFocus(true);
