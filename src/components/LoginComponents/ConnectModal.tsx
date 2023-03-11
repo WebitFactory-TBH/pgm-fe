@@ -36,13 +36,13 @@ export default function ConnectModal({ open, setOpen }: ConnectModalI) {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                  <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                <div className="bg-white px-4 pt-5 pb-2 sm:p-6 sm:pb-4">
+                  <div className="mt-3 mb-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                     <Dialog.Title
                       as="h3"
-                      className="text-base font-semibold leading-6 text-gray-900"
+                      className="text-base font-semibold leading-6 text-gray-900 text-xl"
                     >
-                      Conenct to Pagament
+                      Connect to Pagament
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
@@ -54,7 +54,7 @@ export default function ConnectModal({ open, setOpen }: ConnectModalI) {
                   <WalletConnectBtn walletType="XPortal" />
                 </div>
                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                  <Button onClick={() => setOpen(false)} type="button">
+                  <Button onClick={() => setOpen(false)}>
                     Cancel
                   </Button>
                 </div>

@@ -1,3 +1,4 @@
+import API from '../../api';
 import { useContract } from '../../context/contract';
 import { useUser } from '../../context/user';
 import { useWallet } from '../../context/wallet';
@@ -27,24 +28,31 @@ export default function WalletConnectBtn({ walletType }: ConnectBtnI) {
       // 1. get wallet permissions
       const { walletAddress, wallet } = await connectWallet(walletType);
 
-      // 2. make API call with walletAddr that returns message to sign
-      const message = 'Message to sign';
+      // 2. make API call to get token to sign
+      const token = 'Message to sign';
+      // const rez = await API.post('authentication/requestToken', {
+      //   walletAddress,
+      // });
+      // console.log(rez);
 
-      // 3. sign message
-      const signedMessage = await (wallet as WalletI).signMessage(message);
+      // 3. sign and verify message
+      const signature = await (wallet as WalletI).signMessage(token);
+      // const verification = await API.post('authentication/verifyToken', {
+      //   token,
+      //   signature,
+      // });
+      // console.log(verification);
 
-      // 4. save message and signedMessage to localStorage
-      setWalletDataLocal({ walletAddress, message, signedMessage });
-
-      // 5. get user and save to context
+      // 4. get user and save data
       const user = {
         id: '312321',
         nickname: 'crsssss',
       };
 
       setUser(user);
+      setWalletDataLocal({ walletAddress, token, signature });
 
-      // 6. connect to smart contract
+      // 5. connect to smart contract
       const contractType = walletToContract(walletType);
       connectContract(contractType, walletAddress);
 
@@ -58,7 +66,7 @@ export default function WalletConnectBtn({ walletType }: ConnectBtnI) {
   return (
     <div
       onClick={() => login(walletType)}
-      className="w-100 bg-transparent hover:bg-gray-100 text-gray-600 font-bold py-3 px-5 my-2 flex justify-between transition-all rounded-md"
+      className="cursor-pointer w-100 bg-transparent hover:bg-gray-100 text-gray-600 font-medium py-3 px-5 my-2 flex justify-between transition-all rounded-md"
     >
       {walletType}
       <img className="w-6 mr-2 rounded-md" src={`/${walletType}.png`} />
