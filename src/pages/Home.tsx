@@ -1,3 +1,5 @@
+import Navbar from '../components/Navbar';
+
 export default function HomePage() {
-  return <>Home page</>;
+  return <Navbar />;
 }
