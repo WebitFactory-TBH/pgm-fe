@@ -49,8 +49,7 @@ export default class XPortal implements WalletI {
     try {
       await this.provider.signMessage(signableMessage);
       return true;
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
       throw new Error('User denied message signature.');
     }
   }

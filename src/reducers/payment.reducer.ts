@@ -5,16 +5,36 @@ export interface Receiver {
   name: string;
 }
 
+export interface BusinessData {
+  companyName: string;
+  companyRegNo: string;
+}
+
+export interface UserData {
+  firstname: string;
+  lastname: string;
+}
+
 export interface State {
   amount: number;
   receivers: Array<Receiver>;
+  invoice: boolean;
+  business: boolean;
+  businessData: BusinessData;
+  userData: UserData;
+  billingAddress: string;
 }
 
 export enum ACTIONS {
   ADD_RECEIVER,
   UPDATE_RECEIVER,
   REMOVE_RECEIVER,
-  SET_AMOUNT
+  SET_AMOUNT,
+  SET_INVOICE,
+  TOGGLE_BUSINESS,
+  UPDATE_BUSINESS_DATA,
+  UPDATE_USER_DATA,
+  UPDATE_BILLING_ADDR
 }
 
 export function reducer(state: State, action: any): State {
@@ -23,6 +43,20 @@ export function reducer(state: State, action: any): State {
       return {
         ...state,
         amount: action.payload
+      };
+    }
+
+    case ACTIONS.SET_INVOICE: {
+      return {
+        ...state,
+        invoice: action.payload
+      };
+    }
+
+    case ACTIONS.TOGGLE_BUSINESS: {
+      return {
+        ...state,
+        business: action.payload
       };
     }
 
@@ -63,6 +97,33 @@ export function reducer(state: State, action: any): State {
         receivers: state.receivers.filter(
           (receiver) => receiver.id !== action.payload
         )
+      };
+    }
+
+    case ACTIONS.UPDATE_BUSINESS_DATA: {
+      return {
+        ...state,
+        businessData: {
+          ...state.businessData,
+          [action.payload.field]: action.payload.value
+        }
+      };
+    }
+
+    case ACTIONS.UPDATE_USER_DATA: {
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
+          [action.payload.field]: action.payload.value
+        }
+      };
+    }
+
+    case ACTIONS.UPDATE_BILLING_ADDR: {
+      return {
+        ...state,
+        billingAddress: action.payload
       };
     }
 
