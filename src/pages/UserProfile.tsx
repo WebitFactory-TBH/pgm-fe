@@ -26,7 +26,7 @@ export default function UserProfilePage() {
     <>
       <Title>User profile</Title>
       <Tabs
-        style="mt-3"
+        style="mt-4"
         tabs={tabs}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
