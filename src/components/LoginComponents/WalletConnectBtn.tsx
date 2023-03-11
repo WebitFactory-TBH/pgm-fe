@@ -42,12 +42,12 @@ export default function WalletConnectBtn({ walletType }: ConnectBtnI) {
   };
 
   return (
-    <button
+    <div
       onClick={() => login(walletType)}
-      className="w-100 bg-transparent hover:bg-gray-100 text-gray-600 font-bold py-2 px-4 rounded-full shadow flex justify-between transition-all"
+      className="w-100 bg-transparent hover:bg-gray-100 text-gray-600 font-bold py-3 px-5 my-2 flex justify-between transition-all rounded-md"
     >
-      <img className="w-6 mr-2" src={`/${walletType}.png`} />
       {walletType}
-    </button>
+      <img className="w-6 mr-2 rounded-md" src={`/${walletType}.png`} />
+    </div>
   );
 }
