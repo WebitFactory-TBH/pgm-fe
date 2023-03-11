@@ -67,7 +67,7 @@ export default function Input({
         <label
           htmlFor={props.name}
           className={`
-            absolute block text-sm font-bold leading-6 left-4 -translate-y-1/2
+            absolute block text-sm font-medium leading-6 left-4 -translate-y-1/2
             transition-all duration-300 cursor-text
             ${
               focus || typeof value === 'number' || value?.toString()
