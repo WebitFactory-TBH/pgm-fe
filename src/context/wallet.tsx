@@ -1,11 +1,11 @@
 import WalletI from '../services/WalletConnect/Wallet.interface';
-import { Wallets } from '../services/WalletConnect/Wallets';
+import { wallets } from '../services/WalletConnect/wallets';
 import { WalletTypes } from '../types/WalletTypes';
 import React from 'react';
 
 interface WalletContextI {
   walletAddress: string;
-  walletType: typeof Wallets | null;
+  walletType: typeof wallets | null;
   wallet: WalletI | null;
   disconnectWallet: VoidFunction;
   connectWallet: (walletType: WalletTypes) => any;
@@ -16,7 +16,7 @@ const defaultState: WalletContextI = {
   walletType: null,
   wallet: null,
   disconnectWallet: () => {},
-  connectWallet: () => {},
+  connectWallet: () => {}
 };
 
 // !TODO adauga action payload types pentru typesafety (vezi reducer portfolios hodlezz mobile)
@@ -28,7 +28,7 @@ const reducer = (state: any, action: any) => {
     case 'SET_WALLET': {
       return {
         ...state,
-        ...action.payload,
+        ...action.payload
       };
     }
     default: {
@@ -49,19 +49,19 @@ const WalletProvider = (props: { children: React.ReactNode }) => {
     walletType: state.walletType,
     disconnectWallet: () => dispatch({ type: 'REMOVE_WALLET' }),
     connectWallet: async (walletType) => {
-      const wallet: WalletI = new Wallets[walletType]();
+      const wallet: WalletI = new wallets[walletType]();
 
       try {
         const walletAddress = await wallet.init();
         dispatch({
           type: 'SET_WALLET',
-          payload: { walletType, walletAddress, wallet },
+          payload: { walletType, walletAddress, wallet }
         });
         return { walletAddress, wallet };
       } catch (err) {
         throw err;
       }
-    },
+    }
   };
 
   return (
