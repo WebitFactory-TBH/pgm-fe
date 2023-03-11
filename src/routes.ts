@@ -28,23 +28,21 @@ const routes: RouteI[] = [
     path: routeNames.userProfile,
     title: 'User profile',
     component: UserProfilePage,
-    // requiredAuth: true,
-    requiredAuth: false,
+    requiredAuth: true,
   },
   {
     path: routeNames.payments,
     title: 'Payments',
     component: Payments,
-    // requiredAuth: true,
-    requiredAuth: false,
+    requiredAuth: true,
   },
   {
     path: routeNames.createPayment,
     title: 'Create payment',
     component: CreatePayment,
-    // requiredAuth: true,
-    requiredAuth: false,
+    requiredAuth: true,
   },
 ];
 
 export default routes;
+//
