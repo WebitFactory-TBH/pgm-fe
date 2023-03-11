@@ -3,7 +3,7 @@ import Input from '../components/shared/Input';
 import Subtitle from '../components/shared/Subtitle';
 import Title from '../components/shared/Title';
 import { ACTIONS, reducer } from '../reducers/amount.reducer';
-import { amountTo } from '../utils/percentages';
+import { amountTo, percentageTo } from '../utils/percentages';
 import { ChangeEvent, useMemo, useReducer } from 'react';
 
 export default function CreatePayment() {
@@ -12,6 +12,17 @@ export default function CreatePayment() {
     receivers: [],
     amount
   });
+
+  const remainingAmount = useMemo(() => {
+    const receiversAmountSum = state.receivers.reduce(
+      (sum, currentReceiver) => {
+        return sum + currentReceiver.amount;
+      },
+      0
+    );
+
+    return amountTo(state.amount - receiversAmountSum, state.amount);
+  }, [state]);
 
   const Receiver = useMemo(
     () =>
@@ -23,13 +34,14 @@ export default function CreatePayment() {
             payload: {
               id: receiver.id,
               field: name,
-              value
+              value: name === 'amount' ? Number(value) : value
             }
           });
         };
 
         return (
           <div className='flex flex-row items-center w-full gap-4'>
+            <div className='pb-4'>Remove</div>
             <Input
               type='text'
               name='name'
@@ -68,7 +80,12 @@ export default function CreatePayment() {
       <CustomBox>
         <Subtitle>Receivers</Subtitle>
         <div className='w-full flex flex-row justify-between items-center mt-4'>
-          <div></div>
+          <div>
+            <p>{remainingAmount.toFixed(2)}%</p>
+            <p className='text-xs'>
+              {percentageTo(state.amount, remainingAmount)}
+            </p>
+          </div>
           <button
             onClick={() => {
               dispatch({
