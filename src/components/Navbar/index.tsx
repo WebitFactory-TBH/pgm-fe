@@ -1,7 +1,9 @@
-import { Wallets } from '../../services/WalletConnect/Wallets';
-import ConnectBtn from '../ConnectBtn';
+import { useUser } from '../../context/user';
+import LoginBtn from '../LoginComponents/LoginBtn';
 
 export default function Navbar() {
+  const { user } = useUser();
+
   return (
     <nav className="bg-white px-2 sm:px-4 py-2.5 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
@@ -12,11 +14,12 @@ export default function Navbar() {
             alt="Flowbite Logo"
           />
           <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-            Flowbite
+            Pagamentio
           </span>
         </a>
         <div className="flex md:order-2">
-          <ConnectBtn walletType="Metamask" />
+          {/* {!!user ? user.nickname : <ConnectBtn walletType="Metamask" />} */}
+          {!!user ? user.nickname : <LoginBtn />}
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"

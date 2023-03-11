@@ -9,7 +9,7 @@ interface ConnectBtnI {
   walletType: WalletTypes;
 }
 
-export default function ConnectBtn({ walletType }: ConnectBtnI) {
+export default function WalletConnectBtn({ walletType }: ConnectBtnI) {
   const { connectWallet } = useWallet();
   const { setUser } = useUser();
   const navigate = useNavigate();
@@ -44,10 +44,10 @@ export default function ConnectBtn({ walletType }: ConnectBtnI) {
   return (
     <button
       onClick={() => login(walletType)}
-      className="bg-gray-200 text-gray-600 font-bold py-2 px-4 rounded-full shadow flex hover:bg-gray-300 transition-all"
+      className="w-100 bg-transparent hover:bg-gray-100 text-gray-600 font-bold py-2 px-4 rounded-full shadow flex justify-between transition-all"
     >
       <img className="w-6 mr-2" src={`/${walletType}.png`} />
-      Connect with {walletType}
+      {walletType}
     </button>
   );
 }
