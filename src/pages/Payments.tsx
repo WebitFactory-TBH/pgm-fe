@@ -17,7 +17,7 @@ export default function Payments() {
       ],
     },
     {
-      id: '123',
+      id: '1233',
       blockchain: 'Ethereum',
       amount: 32,
       status: 'canceled',
@@ -30,7 +30,7 @@ export default function Payments() {
       ],
     },
     {
-      id: '123',
+      id: '1232',
       blockchain: 'Ethereum',
       amount: 32,
       status: 'paid',
@@ -70,7 +70,7 @@ export default function Payments() {
           <tbody>
             {payments.map((payment) => {
               return (
-                <tr className="bg-white dark:bg-gray-800">
+                <tr key={payment.id} className="bg-white dark:bg-gray-800">
                   <th
                     scope="row"
                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
