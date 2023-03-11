@@ -89,8 +89,8 @@ export default function Input({
       </div>
       <span
         className={`
-      animate-pulse text-red-500 font-thin text-xs absolute -bottom-4
-      transition-all duration-300 cursor-default min-h-4
+      text-red-500 font-thin text-xs absolute -bottom-4
+      transition-all duration-300 cursor-default min-h-4 left-4
       ${error.length > 0 ? 'opacity-1' : 'opacity-0'}
       `}
       >

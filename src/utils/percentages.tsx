@@ -1,5 +1,3 @@
-import { Receiver } from '../interfaces/receiver.interface';
-
 export const percentageTo = (amount: number, percetage: number) => {
   return amount * (percetage / 100);
 };
@@ -10,7 +8,7 @@ export const amountTo = (amount: number, from: number) => {
 
 export const checkAmount = (
   totalAmount: number,
-  receivers: Array<Receiver>,
+  receivers: Array<{ amount: number }>,
   desiredAmount: number
 ) => {
   const receiversAmountSum = receivers.reduce((sum, currentReceiver) => {
