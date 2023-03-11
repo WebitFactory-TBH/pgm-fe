@@ -42,15 +42,21 @@ export default function CompletePayment() {
   return (
     <>
       <Title>Complete payment</Title>
-      <CustomBox>
-        <Subtitle>Payment id: </Subtitle>
-        <div className="mb-3 text-lg">{payment.id}</div>
-        <Subtitle>Blockchain: </Subtitle>
-        <div className="mb-3 text-lg">{payment.blockchain}</div>
-        <Subtitle>Amount: </Subtitle>
-        <div className="mb-3 text-lg">{payment.amount} ETH</div>
+      <CustomBox style="flex items-center">
+        <div className="flex-1">
+          <Subtitle>Payment id: </Subtitle>
+          <div className="mb-3 text-lg">{payment.id}</div>
+          <Subtitle>Blockchain: </Subtitle>
+          <div className="mb-3 text-lg">{payment.blockchain}</div>
+          <Subtitle>Amount: </Subtitle>
+          <div className="mb-3 text-lg">{payment.amount} ETH</div>
+        </div>
 
-        <Button onClick={startPaymentProcess} disabled={loading}>
+        <Button
+          style={{ marginRight: '50px' }}
+          onClick={startPaymentProcess}
+          loading={loading}
+        >
           Pay now
         </Button>
       </CustomBox>
