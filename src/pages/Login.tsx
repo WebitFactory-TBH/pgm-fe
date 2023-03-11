@@ -1,6 +1,7 @@
-import { useWallet, WalletTypes } from '../context/Wallet';
 import { useUser } from '../context/user';
+import { useWallet } from '../context/wallet';
 import WalletI from '../services/WalletConnect/Wallet.interface';
+import { WalletTypes } from '../types/WalletTypes';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,7 +26,7 @@ export default function Login() {
       // 5. get user and save to context
       const user = {
         id: '312321',
-        nickname: 'crsssss',
+        nickname: 'crsssss'
       };
 
       setUser(user);
@@ -37,17 +38,17 @@ export default function Login() {
   };
 
   return (
-    <div className="container h-screen flex">
-      <div className="w-2/3 h-100 flex flex-wrap items-center justify-center">
-        <img className="w-96" src="/login.svg" />
+    <div className='container h-screen flex'>
+      <div className='w-2/3 h-100 flex flex-wrap items-center justify-center'>
+        <img className='w-96' src='/login.svg' />
       </div>
-      <div className="w-1/3 h-100 flex flex-wrap items-center justify-center flex-col text-neutral-800 dark:text-neutral-200">
-        <div className="text-2xl font-extrabold mb-8">Log in</div>
+      <div className='w-1/3 h-100 flex flex-wrap items-center justify-center flex-col text-neutral-800 dark:text-neutral-200'>
+        <div className='text-2xl font-extrabold mb-8'>Log in</div>
         <button
           onClick={() => login('Metamask')}
-          className="bg-gray-200 text-gray-600 font-bold py-3 px-5 rounded-full shadow flex hover:bg-gray-300 transition-all"
+          className='bg-gray-200 text-gray-600 font-bold py-3 px-5 rounded-full shadow flex hover:bg-gray-300 transition-all'
         >
-          <img className="w-6 mr-2" src="/Metamask.png" />
+          <img className='w-6 mr-2' src='/Metamask.png' />
           Connect with Metamask
         </button>
       </div>

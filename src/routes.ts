@@ -12,7 +12,7 @@ export interface RouteI {
 export const routeNames = {
   home: '/',
   userProfile: '/user/profile',
-  login: '/login',
+  login: '/login'
 };
 
 const routes: RouteI[] = [
@@ -20,20 +20,20 @@ const routes: RouteI[] = [
     path: routeNames.home,
     title: 'Home',
     component: HomePage,
-    requiredAuth: true,
+    requiredAuth: true
   },
   {
     path: routeNames.userProfile,
     title: 'User profile',
     component: UserProfilePage,
-    requiredAuth: true,
+    requiredAuth: true
   },
   {
     path: routeNames.login,
     title: 'Login',
     component: Login,
-    requiredAuth: false,
-  },
+    requiredAuth: false
+  }
 ];
 
 export default routes;

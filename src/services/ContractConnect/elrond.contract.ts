@@ -3,7 +3,7 @@ import {
   AbiRegistry,
   Address,
   SmartContract,
-  SmartContractAbi,
+  SmartContractAbi
 } from '@multiversx/sdk-core';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 
@@ -37,7 +37,7 @@ export default class ElrondContract implements ContractConnectI {
 
     this.contract = new SmartContract({
       address: this.contractAddress,
-      abi: this.abiRegistry,
+      abi: this.abiRegistry
     });
 
     this.proxy = new ProxyNetworkProvider(

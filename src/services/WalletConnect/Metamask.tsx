@@ -4,12 +4,12 @@ import { Buffer } from 'buffer';
 export enum Chains {
   '0x1' = 'Ethereum',
   '0x4' = 'Rinkeby',
-  '0x61' = 'BSC Testnet',
+  '0x61' = 'BSC Testnet'
 }
 
 export default class Metamask implements WalletI {
   window = window as any;
-  walletAddr: string = '';
+  walletAddr = '';
 
   isInstalled() {
     return this.window?.ethereum;
@@ -34,7 +34,7 @@ export default class Metamask implements WalletI {
 
     try {
       accounts = await this.window.ethereum.request({
-        method: 'eth_requestAccounts',
+        method: 'eth_requestAccounts'
       });
     } catch (err) {
       console.error(err);
@@ -51,17 +51,17 @@ export default class Metamask implements WalletI {
 
   initListeners() {
     this.window.ethereum.on('chainChanged', (chainId: string) => {
-      //TODO: handle this
+      // TODO: handle this
       window.location.reload();
     });
 
     this.window.ethereum.on('accountsChanged', (accounts: any) => {
-      //TODO: handle this
+      // TODO: handle this
       window.location.reload();
     });
 
     this.window.ethereum.on('disconnect', () => {
-      //TODO: handle this
+      // TODO: handle this
       window.location.reload();
     });
 
@@ -77,7 +77,7 @@ export default class Metamask implements WalletI {
     try {
       signature = await this.window.ethereum.request({
         method: 'personal_sign',
-        params: [msg, this.walletAddr, 'Random text'],
+        params: [msg, this.walletAddr, 'Random text']
       });
     } catch (err) {
       throw new Error('User denied message signature.');

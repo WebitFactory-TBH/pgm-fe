@@ -1,26 +1,25 @@
-import Metamask from '../services/WalletConnect/Metamask';
 import WalletI from '../services/WalletConnect/Wallet.interface';
 import { Wallets } from '../services/WalletConnect/Wallets';
+import { WalletTypes } from '../types/WalletTypes';
 import React from 'react';
-
-export type WalletTypes = 'Metamask' | 'XPortal' | null;
 
 interface WalletContextI {
   walletAddress: string;
-  walletType: WalletTypes;
+  walletType: typeof Wallets | null;
   wallet: WalletI | null;
-  disconnectWallet: () => void;
+  disconnectWallet: VoidFunction;
   connectWallet: (walletType: WalletTypes) => any;
 }
 
-const defaultState = {
+const defaultState: WalletContextI = {
   walletAddress: '',
   walletType: null,
   wallet: null,
   disconnectWallet: () => {},
-  connectWallet: (walletType: WalletTypes) => {},
+  connectWallet: () => {}
 };
 
+// !TODO adauga action payload types pentru typesafety (vezi reducer portfolios hodlezz mobile)
 const reducer = (state: any, action: any) => {
   switch (action.type) {
     case 'REMOVE_WALLET': {
@@ -29,7 +28,7 @@ const reducer = (state: any, action: any) => {
     case 'SET_WALLET': {
       return {
         ...state,
-        ...action.payload,
+        ...action.payload
       };
     }
     default: {
@@ -44,28 +43,27 @@ const WalletProvider = (props: { children: React.ReactNode }) => {
   const { children } = props;
   const [state, dispatch] = React.useReducer(reducer, defaultState);
 
-  const passValue = {
+  const passValue: WalletContextI = {
     walletAddress: state.walletAddress,
     wallet: state.wallet,
     walletType: state.walletType,
     disconnectWallet: () => dispatch({ type: 'REMOVE_WALLET' }),
-
-    connectWallet: async (walletType: WalletTypes) => {
-      const wallet: WalletI = new Wallets[walletType as string]();
+    connectWallet: async (walletType) => {
+      const wallet: WalletI = new Wallets[walletType]();
       let walletAddress;
 
       try {
         walletAddress = await wallet.init();
         dispatch({
           type: 'SET_WALLET',
-          payload: { walletType, walletAddress, wallet },
+          payload: { walletType, walletAddress, wallet }
         });
       } catch (err) {
         throw err;
       }
 
       return { walletAddress, wallet };
-    },
+    }
   };
 
   return (

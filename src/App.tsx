@@ -1,6 +1,6 @@
 import RequireAuth from './components/RequiresAuth';
-import { WalletProvider } from './context/Wallet';
 import { UserProvider } from './context/user';
+import { WalletProvider } from './context/wallet';
 import routes, { RouteI } from './routes';
 import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <Router>
-      <UserProvider>
+      <UserProvider initialValue={null}>
         <WalletProvider>
           <QueryClientProvider client={queryClient}>
             <Routes>
@@ -31,7 +31,7 @@ function App() {
           </QueryClientProvider>
         </WalletProvider>
       </UserProvider>
-      <Toaster position="top-right" />
+      <Toaster position='top-right' />
     </Router>
   );
 }

@@ -1,5 +1,5 @@
 import Metamask from './Metamask';
 
-export const Wallets: any = {
-  Metamask,
+export const Wallets = {
+  Metamask
 };

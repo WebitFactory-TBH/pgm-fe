@@ -1,4 +1,3 @@
 export default function UserProfilePage() {
-    return <>User profile page!</>;
-  }
-  
+  return <>User profile page!</>;
+}

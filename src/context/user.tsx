@@ -21,9 +21,10 @@ const defaultState = {
   user: null,
   setUser: () => {},
   updateUser: () => {},
-  removeUser: () => {},
+  removeUser: () => {}
 };
 
+// !TODO adauga action payload types pentru typesafety (vezi reducer portfolios hodlezz mobile)
 const reducer = (state: User, action: any) => {
   switch (action.type) {
     case 'SET_USER': {
@@ -32,7 +33,7 @@ const reducer = (state: User, action: any) => {
     case 'UPDATE_USER': {
       return {
         ...state,
-        ...action.payload,
+        ...action.payload
       };
     }
     case 'REMOVE_USER': {
@@ -56,7 +57,7 @@ const UserProvider = (props: UserProviderProps) => {
     setUser: (user: User) => dispatch({ type: 'SET_USER', payload: user }),
     updateUser: (user: Partial<User>) =>
       dispatch({ type: 'UPDATE_USER', payload: user }),
-    removeUser: () => dispatch({ type: 'REMOVE_USER' }),
+    removeUser: () => dispatch({ type: 'REMOVE_USER' })
   };
 
   return (

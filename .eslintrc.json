@@ -9,27 +9,66 @@
     "sourceType": "module",
     "overrides": [
       {
-        "files": ["*.yaml", "*.yml"],
+        "files": [
+          "*.yaml",
+          "*.yml"
+        ],
         "parser": "yaml-eslint-parser"
       }
     ]
   },
-  "plugins": ["@typescript-eslint", "json-format", "react-hooks"],
-  "extends": ["standard", "plugin:markdown/recommended", "plugin:yml/standard"],
+  "plugins": [
+    "@typescript-eslint",
+    "json-format",
+    "react-hooks"
+  ],
+  "extends": [
+    "standard",
+    "plugin:markdown/recommended",
+    "plugin:yml/standard",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
   "rules": {
     "react-hooks/rules-of-hooks": "error",
     "no-useless-catch": "off",
-    "indent": ["error", 2],
+    "indent": "error",
     "sort-imports": [
       "error",
       {
         "ignoreCase": false,
         "ignoreDeclarationSort": true,
         "ignoreMemberSort": false,
-        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+        "memberSyntaxSortOrder": [
+          "none",
+          "all",
+          "multiple",
+          "single"
+        ],
         "allowSeparatedGroups": true
       }
     ],
-    "semi": ["always"]
+    "semi": "off",
+    "@typescript-eslint/semi": [
+      2,
+      "always",
+      {
+        "omitLastInOneLineBlock": true
+      }
+    ],
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ],
+    "no-empty-function": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "multiline-ternary": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "no-extra-semi": "off",
+    "@typescript-eslint/no-extra-semi": "off"
   }
 }

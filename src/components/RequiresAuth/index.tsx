@@ -1,5 +1,5 @@
 import { useUser } from '../../context/user';
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 interface RequireAuthI extends React.PropsWithChildren {
@@ -8,13 +8,13 @@ interface RequireAuthI extends React.PropsWithChildren {
 
 export default function RequireAuth({
   children,
-  requiresAuth,
+  requiresAuth
 }: RequireAuthI): JSX.Element {
   const { user } = useUser();
 
   return !requiresAuth || !!user ? (
     (children as JSX.Element)
   ) : (
-    <Navigate to="/login" replace />
+    <Navigate to='/login' replace />
   );
 }
