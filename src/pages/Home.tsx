@@ -12,7 +12,7 @@ export default function HomePage() {
   useEffect(() => {
     if (contract) {
       console.log('apelam cancelPayment');
-      createPayment();
+      // createPayment();
     }
   }, [contract]);
 

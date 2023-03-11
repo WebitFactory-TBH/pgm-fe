@@ -17,6 +17,10 @@ export default function WalletConnectBtn({ walletType }: ConnectBtnI) {
   const { setUser } = useUser();
   const { connectContract } = useContract();
   const navigate = useNavigate();
+  const [walletDataLocal, setWalletDataLocal] = useLocalStorage<any>(
+    'walletData',
+    null
+  );
 
   const login = async (walletType: WalletTypes) => {
     try {
@@ -30,6 +34,7 @@ export default function WalletConnectBtn({ walletType }: ConnectBtnI) {
       const signedMessage = await (wallet as WalletI).signMessage(message);
 
       // 4. save message and signedMessage to localStorage
+      setWalletDataLocal({ walletAddress, message, signedMessage });
 
       // 5. get user and save to context
       const user = {

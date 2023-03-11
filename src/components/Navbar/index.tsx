@@ -1,8 +1,16 @@
 import { useUser } from '../../context/user';
+import useLocalStorage from '../../hooks/useLocalStorage';
+import { shortenHash } from '../../utils/shortenHash';
 import LoginBtn from '../LoginComponents/LoginBtn';
+import Text from '../shared/Text';
 import { Link } from 'react-router-dom';
 
 export default function Navbar() {
+  const [walletDataLocal, setWalletDataLocal] = useLocalStorage<any>(
+    'walletData',
+    null
+  );
+
   const { user } = useUser();
 
   const links = [
@@ -21,7 +29,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="bg-white px-2 sm:px-4 py-2.5 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+    <nav className="bg-white px-2 sm:px-4 py-2.5 dark:bg-gray-900 fixed w-full z-10 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
         <a href="https://flowbite.com/" className="flex items-center">
           <img
@@ -33,9 +41,16 @@ export default function Navbar() {
             Pagament
           </span>
         </a>
-        <div className="flex md:order-2">
+        <div className="md:order-2">
           {user ? (
-            <Link to="/user/profile">{user.nickname}</Link>
+            <>
+              <Link style={{ display: 'block' }} to="/user/profile">
+                <Text style="text-right font-semibold">{user.nickname}</Text>
+                <Text style="text-gray-400 text-right">
+                  {shortenHash(walletDataLocal?.walletAddress)}
+                </Text>
+              </Link>
+            </>
           ) : (
             <LoginBtn />
           )}
