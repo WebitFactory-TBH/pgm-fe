@@ -15,9 +15,8 @@ export const checkAmount = (
     return sum + currentReceiver.amount;
   }, 0);
 
-  if (receiversAmountSum + desiredAmount > totalAmount) {
-    return false;
-  }
-
-  return true;
+  return {
+    valid: receiversAmountSum + desiredAmount > totalAmount,
+    amount: receiversAmountSum
+  };
 };

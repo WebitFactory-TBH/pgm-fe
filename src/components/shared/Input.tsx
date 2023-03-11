@@ -20,7 +20,7 @@ export default function Input({
   const ref = useRef<HTMLInputElement>(null);
   const [focus, setFocus] = useState(ref.current === document.activeElement);
   const [value, setValue] = useState(props.defaultValue);
-  const [error, setError] = useState('sadasd');
+  const [error, setError] = useState('');
 
   const onFocus = useCallback((event: FocusEvent<HTMLInputElement>) => {
     setFocus(true);
@@ -55,7 +55,7 @@ export default function Input({
 
   return (
     <div
-      className='w-full relative mb-2'
+      className='w-full relative pb-4'
       onClick={() => {
         ref.current?.focus();
       }}
@@ -89,8 +89,8 @@ export default function Input({
       </div>
       <span
         className={`
-      text-red-500 font-thin text-xs absolute -bottom-4
-      transition-all duration-300 cursor-default min-h-4 left-4
+      text-red-500 font-thin text-xs absolute -bottom-0
+      transition-all duration-300 cursor-default left-4
       ${error.length > 0 ? 'opacity-1' : 'opacity-0'}
       `}
       >

@@ -84,7 +84,7 @@ export default function Navbar() {
           <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             {links.map((el) => {
               return (
-                <li>
+                <li key={el.label}>
                   <Link
                     to={el.link}
                     className="text-slate-700 hover:text-slate-500 text-xs uppercase py-3 font-bold block"
