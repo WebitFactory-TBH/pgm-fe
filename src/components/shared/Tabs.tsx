@@ -11,6 +11,7 @@ export default function Tabs({ tabs, activeTab, setActiveTab, style }: TabsI) {
       {tabs.map((tab: string, index: any) => {
         return (
           <div
+            key={index}
             onClick={() => setActiveTab(index)}
             className={
               'my-2 mr-2 block min-w-[120px] rounded  px-6 pt-4 pb-3.5 text-center text-xs font-medium uppercase leading-tight md:mr-4 select-none cursor-pointer transition-all ' +

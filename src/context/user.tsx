@@ -1,3 +1,4 @@
+import useLocalStorage from '../hooks/useLocalStorage';
 import React from 'react';
 
 export interface User {
@@ -21,7 +22,7 @@ const defaultState = {
   user: null,
   setUser: () => {},
   updateUser: () => {},
-  removeUser: () => {}
+  removeUser: () => {},
 };
 
 // !TODO adauga action payload types pentru typesafety (vezi reducer portfolios hodlezz mobile)
@@ -33,7 +34,7 @@ const reducer = (state: User, action: any) => {
     case 'UPDATE_USER': {
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       };
     }
     case 'REMOVE_USER': {
@@ -49,15 +50,20 @@ const UserContext = React.createContext<IUserContext>(defaultState);
 
 const UserProvider = (props: UserProviderProps) => {
   const { children } = props;
-  // TODO: aici ar trb sa ia user din local storage la initializare
-  const [state, dispatch] = React.useReducer(reducer, null);
+  const [userLocal, setUserLocal] = useLocalStorage<any>('user', null);
+  const [state, dispatch] = React.useReducer(reducer, userLocal);
 
   const passValue = {
     user: state,
-    setUser: (user: User) => dispatch({ type: 'SET_USER', payload: user }),
-    updateUser: (user: Partial<User>) =>
-      dispatch({ type: 'UPDATE_USER', payload: user }),
-    removeUser: () => dispatch({ type: 'REMOVE_USER' })
+    setUser: (user: User) => {
+      setUserLocal(user);
+      dispatch({ type: 'SET_USER', payload: user });
+    },
+    updateUser: (user: Partial<User>) => {
+      setUserLocal(user);
+      dispatch({ type: 'UPDATE_USER', payload: user });
+    },
+    removeUser: () => dispatch({ type: 'REMOVE_USER' }),
   };
 
   return (

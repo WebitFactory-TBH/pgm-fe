@@ -8,11 +8,11 @@ export default function LoginBtn() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="bg-gray-200 text-gray-600 font-bold py-2 px-4 rounded-full shadow flex hover:bg-gray-300 transition-all"
+        className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all"
       >
         Login
       </button>
-      
+
       <ConnectModal open={open} setOpen={setOpen} />
     </>
   );

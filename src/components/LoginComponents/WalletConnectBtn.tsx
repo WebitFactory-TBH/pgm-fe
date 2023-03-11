@@ -1,7 +1,10 @@
+import { useContract } from '../../context/contract';
 import { useUser } from '../../context/user';
 import { useWallet } from '../../context/wallet';
+import useLocalStorage from '../../hooks/useLocalStorage';
 import WalletI from '../../services/WalletConnect/Wallet.interface';
 import { WalletTypes } from '../../types/WalletTypes';
+import walletToContract from '../../utils/walletToContract';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,6 +15,7 @@ interface ConnectBtnI {
 export default function WalletConnectBtn({ walletType }: ConnectBtnI) {
   const { connectWallet } = useWallet();
   const { setUser } = useUser();
+  const { connectContract } = useContract();
   const navigate = useNavigate();
 
   const login = async (walletType: WalletTypes) => {
@@ -34,6 +38,11 @@ export default function WalletConnectBtn({ walletType }: ConnectBtnI) {
       };
 
       setUser(user);
+
+      // 6. connect to smart contract
+      const contractType = walletToContract(walletType);
+      connectContract(contractType, walletAddress);
+
       navigate('/');
     } catch (err) {
       console.error(err);
