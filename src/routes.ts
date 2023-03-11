@@ -1,3 +1,4 @@
+import CompletePayment from './pages/CompletePayment';
 import CreatePayment from './pages/CreatePayment';
 import HomePage from './pages/Home';
 import Payments from './pages/Payments';
@@ -15,6 +16,7 @@ export const routeNames = {
   userProfile: '/user/profile',
   payments: '/payments',
   createPayment: '/payments/create',
+  completePayment: '/payments/complete/:id',
 };
 
 const routes: RouteI[] = [
@@ -41,6 +43,12 @@ const routes: RouteI[] = [
     title: 'Create payment',
     component: CreatePayment,
     requiredAuth: true,
+  },
+  {
+    path: routeNames.completePayment,
+    title: 'Complete payment',
+    component: CompletePayment,
+    requiredAuth: false,
   },
 ];
 
