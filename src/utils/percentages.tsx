@@ -3,6 +3,9 @@ export const percentageTo = (amount: number, percetage: number) => {
 };
 
 export const amountTo = (amount: number, from: number) => {
+  if (from === 0) {
+    return 0;
+  }
   return 100 * (amount / from);
 };
 

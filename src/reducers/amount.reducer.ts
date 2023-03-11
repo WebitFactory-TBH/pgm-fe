@@ -12,14 +12,21 @@ export interface State {
 
 export enum ACTIONS {
   ADD_RECEIVER,
-  UPDATE_RECEIVER
+  UPDATE_RECEIVER,
+  REMOVE_RECEIVER,
+  SET_AMOUNT
 }
 
 export function reducer(state: State, action: any): State {
   switch (action.type) {
-    case ACTIONS.ADD_RECEIVER: {
-      // payload must have a new amount percentage and wallet address
+    case ACTIONS.SET_AMOUNT: {
+      return {
+        ...state,
+        amount: action.payload
+      };
+    }
 
+    case ACTIONS.ADD_RECEIVER: {
       return {
         ...state,
         receivers: [
@@ -47,6 +54,15 @@ export function reducer(state: State, action: any): State {
 
           return receiver;
         })
+      };
+    }
+
+    case ACTIONS.REMOVE_RECEIVER: {
+      return {
+        ...state,
+        receivers: state.receivers.filter(
+          (receiver) => receiver.id !== action.payload
+        )
       };
     }
 
