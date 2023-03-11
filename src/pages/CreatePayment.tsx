@@ -181,7 +181,7 @@ export default function CreatePayment() {
       },
     [state.amount]
   );
-  console.log(state.invoice);
+
   return (
     <>
       <Title>Create payment</Title>
