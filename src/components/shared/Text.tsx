@@ -1,5 +1,9 @@
 import { PropsWithChildren } from 'react';
 
-export default function Text({ children }: PropsWithChildren) {
-  return <div className="text-base text-gray-700 text-sm">{children}</div>;
+interface TextPropsI extends PropsWithChildren {
+  style?: string;
+}
+
+export default function Text({ children, style }: TextPropsI) {
+  return <div className={'text-sm ' + style}>{children}</div>;
 }

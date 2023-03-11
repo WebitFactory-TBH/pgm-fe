@@ -1,3 +1,5 @@
+import smartcontractAbiJson from '../../assets/eth.abi.json';
+import { config } from '../../config';
 import ContractConnectI from './Contract.interface';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
@@ -9,29 +11,75 @@ export default class EthContract implements ContractConnectI {
   contract: Contract | undefined;
   _web3: any;
 
-  constructor(smartcontractAbiJson: any) {
-    if (typeof process.env.REACT_APP_ETH_CONTRACT_ADDRESS === 'undefined') {
+  constructor(accountAddress: string) {
+    if (config.ethContractAddress === 'undefined') {
       throw new Error('Contract address not found');
     }
 
-    this.contractAddress = process.env.REACT_APP_ETH_CONTRACT_ADDRESS as string;
     this._web3 = new Web3(ethereum);
+    this._web3.eth.defaultAccount = accountAddress;
 
+    this.contractAddress = config.ethContractAddress;
     this.contract = new this._web3.eth.Contract(
       smartcontractAbiJson,
       this.contractAddress
     );
   }
 
-  connectToContract(accountAddress: string) {
-    this._web3.eth.defaultAccount = accountAddress;
+  createPaymentLink(data: any) {
+    return new Promise((resolve, reject) => {
+      let _web3 = this._web3;
+      this.contract?.methods
+        // .createPayment(saleIndex, _web3.utils.toWei(amount))
+        .createPayment(data)
+        .send(
+          { from: _web3.eth.defaultAccount, value: 0 },
+          function (err: any, result: any) {
+            if (err != null) {
+              reject(err);
+            }
+
+            console.log(result);
+            resolve(result);
+          }
+        );
+    }) as Promise<any>;
   }
 
-  createPaymentLink() {}
+  completePayment(paymentId: string) {
+    return new Promise((resolve, reject) => {
+      let _web3 = this._web3;
+      this.contract?.methods
+        .completePayment(paymentId)
+        .send(
+          { from: _web3.eth.defaultAccount },
+          function (err: any, result: any) {
+            if (err != null) {
+              reject(err);
+            }
 
-  completePayment() {}
+            console.log(result);
+            resolve(result);
+          }
+        );
+    }) as Promise<boolean>;
+  }
 
-  cancelPayment() {}
+  cancelPayment(paymentId: string) {
+    return new Promise((resolve, reject) => {
+      let _web3 = this._web3;
+      this.contract?.methods
+        .cancelPayment(paymentId)
+        .call(function (err: any, result: any) {
+          if (err != null) {
+            reject(err);
+          }
+
+          resolve(result);
+          // resolve(_web3.utils.fromWei(result));
+        });
+    }) as Promise<boolean>;
+  }
 
   getRequiredAmount() {}
 }

@@ -1,9 +1,11 @@
+import smartcontractAbiJson from '../../assets/elrond.abi.json';
+import { config } from '../../config';
 import ContractConnectI from './Contract.interface';
 import {
   AbiRegistry,
   Address,
   SmartContract,
-  SmartContractAbi
+  SmartContractAbi,
 } from '@multiversx/sdk-core';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 
@@ -19,17 +21,16 @@ export default class ElrondContract implements ContractConnectI {
   abiRegistry: SmartContractAbi;
   proxy: ProxyNetworkProvider;
 
-  constructor(smartcontractAbiJson: AbiJSON) {
-    if (typeof process.env.REACT_APP_ELROND_CONTRACT_ADDRESS === 'undefined') {
+  constructor() {
+    if (typeof config.elrondContractAddress === 'undefined') {
       throw new Error('Contract address not found');
     }
 
-    if (typeof process.env.REACT_APP_ELROND_NETWORK_PROVIDER === 'undefined') {
+    if (typeof config.elrondNetworkProvider === 'undefined') {
       throw new Error('Network provider undefined');
     }
-    this.contractAddress = new Address(
-      process.env.REACT_APP_ELROND_CONTRACT_ADDRESS
-    );
+
+    this.contractAddress = new Address(config.elrondContractAddress);
 
     this.abiRegistry = new SmartContractAbi(
       AbiRegistry.create(smartcontractAbiJson).remapToKnownTypes()
@@ -37,15 +38,11 @@ export default class ElrondContract implements ContractConnectI {
 
     this.contract = new SmartContract({
       address: this.contractAddress,
-      abi: this.abiRegistry
+      abi: this.abiRegistry,
     });
 
-    this.proxy = new ProxyNetworkProvider(
-      process.env.REACT_APP_ELROND_NETWORK_PROVIDER
-    );
+    this.proxy = new ProxyNetworkProvider(config.elrondNetworkProvider);
   }
-
-  connectToContract() {}
 
   createPaymentLink() {}
 

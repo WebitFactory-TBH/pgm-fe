@@ -1,4 +1,5 @@
 import { useUser } from '../../context/user';
+import Input from '../shared/Input';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
@@ -13,9 +14,19 @@ export default function AccountData() {
     initialValues: {
       nickname: user?.nickname,
     },
-  validationSchema: validationSchema,
+    validationSchema: validationSchema,
     onSubmit: async (values) => {},
   });
 
-  return <form onSubmit={formik.handleSubmit}></form>;
+  return (
+    <form onSubmit={formik.handleSubmit}>
+      <Input
+        initValue={formik.values.nickname}
+        value={formik.values.nickname}
+        onChange={formik.handleChange}
+        name="nickname"
+        placeholder="Nickname"
+      />
+    </form>
+  );
 }
