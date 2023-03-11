@@ -57,6 +57,7 @@ export default function ConnectModal({ open, setOpen }: ConnectModalI) {
                     </div>
                   </div>
                   <WalletConnectBtn walletType="Metamask" />
+                  <WalletConnectBtn walletType="XPortal" />
                 </div>
                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                   <button
