@@ -4,7 +4,7 @@ import { WalletTypes } from '../../types/WalletTypes';
 import { shortenHash } from '../../utils/shortenHash';
 import Button from '../shared/Button';
 import Text from '../shared/Text';
-import FeatherIcon from 'feather-icons-react';
+// import FeatherIcon from 'feather-icons-react';
 import toast from 'react-hot-toast';
 
 const wallets: WalletTypes[] = ['Metamask', 'XPortal'];
@@ -15,8 +15,8 @@ export default function ConnectedWallets() {
   const connectedWallets = [
     {
       name: 'Metamask',
-      wallet: '0x4143123kl23kl112l3k1',
-    },
+      wallet: '0x4143123kl23kl112l3k1'
+    }
   ];
 
   const linkWallet = async (walletType: WalletTypes) => {
@@ -44,22 +44,22 @@ export default function ConnectedWallets() {
         return (
           <div
             key={wallet}
-            className="w-100 bg-transparent text-gray-600 py-3 px-5 my-2 flex justify-between items-center transition-all rounded-md"
+            className='w-100 bg-transparent text-gray-600 py-3 px-5 my-2 flex justify-between items-center transition-all rounded-md'
           >
-            <div className="flex items-center w-auto font-semibold">
-              <img className="h-7 mr-3 rounded-md" src={`/${wallet}.png`} />
+            <div className='flex items-center w-auto font-semibold'>
+              <img className='h-7 mr-3 rounded-md' src={`/${wallet}.png`} />
               <Text>{wallet}</Text>
             </div>
-            <div className="">
-              {connectedWallets.find((el: any) => el.name == wallet) ? (
+            <div className=''>
+              {connectedWallets.find((el: any) => el.name === wallet) ? (
                 <div>
-                  <FeatherIcon
+                  {/* <FeatherIcon
                     style={{ display: 'inline-block' }}
-                    icon="check"
-                    size="18"
-                  />
-                  <Text style="font-semibold inline-block ml-2">Connected</Text>
-                  <Text style="text-gray-400">
+                    icon='check'
+                    size='18'
+                  /> */}
+                  <Text style='font-semibold inline-block ml-2'>Connected</Text>
+                  <Text style='text-gray-400'>
                     {shortenHash(connectedWallets[0].wallet)}
                   </Text>
                 </div>
@@ -68,7 +68,7 @@ export default function ConnectedWallets() {
                   onClick={() => {
                     linkWallet(wallet);
                   }}
-                  type="button"
+                  type='button'
                 >
                   Connect
                 </Button>
