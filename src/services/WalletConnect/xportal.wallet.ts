@@ -1,8 +1,9 @@
 import WalletI from './Wallet.interface';
 import { SignableMessage } from '@multiversx/sdk-core/out';
 import { ExtensionProvider } from '@multiversx/sdk-extension-provider';
-import { Buffer } from 'buffer';
+import * as buffer from 'buffer';
 
+window.Buffer = buffer.Buffer;
 export default class XPortal implements WalletI {
   provider: ExtensionProvider;
   address: string;
@@ -19,9 +20,13 @@ export default class XPortal implements WalletI {
 
   async init() {
     await this.provider.init();
-    this.address = await this.provider.login();
+    const address = (this.address = await this.provider.login());
 
-    return this.address;
+    if (this.address.length === 0) {
+      throw new Error('Wallet extension is not available for connection');
+    }
+
+    return address;
   }
 
   async checkConnection() {
@@ -47,6 +52,7 @@ export default class XPortal implements WalletI {
       await this.provider.signMessage(signableMessage);
       return true;
     } catch (err) {
+      console.log(err);
       throw new Error('User denied message signature.');
     }
   }

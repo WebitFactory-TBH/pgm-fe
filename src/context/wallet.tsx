@@ -49,8 +49,10 @@ const WalletProvider = (props: { children: React.ReactNode }) => {
     walletType: state.walletType,
     disconnectWallet: () => dispatch({ type: 'REMOVE_WALLET' }),
     connectWallet: async (walletType) => {
+      console.log('dsadas', walletType);
       const wallet: WalletI = new Wallets[walletType]();
       let walletAddress;
+      console.log('weallet', wallet);
 
       try {
         walletAddress = await wallet.init();
