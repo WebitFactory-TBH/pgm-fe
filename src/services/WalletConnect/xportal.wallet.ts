@@ -1,6 +1,7 @@
 import WalletI from './Wallet.interface';
 import { SignableMessage } from '@multiversx/sdk-core/out';
 import { ExtensionProvider } from '@multiversx/sdk-extension-provider';
+import { Buffer } from 'buffer';
 
 export default class XPortal implements WalletI {
   provider: ExtensionProvider;
