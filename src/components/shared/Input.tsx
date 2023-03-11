@@ -15,6 +15,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 export default function Input({
   regexContrains = '[sS]*',
   regexError,
+  disabled = false,
   ...props
 }: Props) {
   const ref = useRef<HTMLInputElement>(null);
@@ -55,7 +56,9 @@ export default function Input({
 
   return (
     <div
-      className='w-full relative pb-4'
+      className={`w-full relative pb-4 ${
+        disabled ? 'opacity-40' : 'opacity-100'
+      }`}
       onClick={() => {
         ref.current?.focus();
       }}
@@ -85,6 +88,7 @@ export default function Input({
           onFocus={onFocus}
           onBlur={onBlur}
           onChange={onChange}
+          disabled={disabled}
         />
       </div>
       <span
