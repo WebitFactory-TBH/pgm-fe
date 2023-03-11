@@ -1,7 +1,8 @@
-import WalletConnectBtn from '../LoginComponents/WalletConnectBtn';
+import { useUser } from '../../context/user';
+import LoginBtn from '../LoginComponents/LoginBtn';
 
 export default function Navbar() {
-  // const { user } = useUser()
+  const { user } = useUser();
 
   return (
     <nav className='bg-white px-2 sm:px-4 py-2.5 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600'>
@@ -17,7 +18,7 @@ export default function Navbar() {
           </span>
         </a>
         <div className='flex md:order-2'>
-          <WalletConnectBtn walletType='Metamask' />
+          {user ? user.nickname : <LoginBtn />}
           <button
             data-collapse-toggle='navbar-sticky'
             type='button'
@@ -36,7 +37,7 @@ export default function Navbar() {
               <path
                 fillRule='evenodd'
                 d='M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z'
-                clipRule='evenodd'
+                clip-rule='evenodd'
               ></path>
             </svg>
           </button>
