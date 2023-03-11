@@ -30,18 +30,18 @@ export default function WalletConnectBtn({ walletType }: ConnectBtnI) {
 
       // 2. make API call to get token to sign
       const token = 'Message to sign';
-      // const rez = await API.post('authentication/requestToken', {
-      //   walletAddress,
-      // });
-      // console.log(rez);
+      const rez = await API.post('authentication/requestToken', {
+        walletAddress,
+      });
+      console.log(rez);
 
       // 3. sign and verify message
       const signature = await (wallet as WalletI).signMessage(token);
-      // const verification = await API.post('authentication/verifyToken', {
-      //   token,
-      //   signature,
-      // });
-      // console.log(verification);
+      const verification = await API.post('authentication/verifyToken', {
+        token,
+        signature,
+      });
+      console.log(verification);
 
       // 4. get user and save data
       const user = {
