@@ -6,6 +6,6 @@ export default axios.create({
   headers: {
     'Access-Control-Allow-Origin': '*',
     token: JSON.parse(window.localStorage.getItem('walletData'))?.token,
-    signature: JSON.parse(window.localStorage.getItem('walletData'))?.signature,
-  },
+    signature: JSON.parse(window.localStorage.getItem('walletData'))?.signature
+  }
 });

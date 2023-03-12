@@ -1,4 +1,4 @@
-import API from '../api';
+import api from '../api';
 import Icon from '../assets/icons';
 import Button from '../components/shared/Button';
 import Checkbox from '../components/shared/Checkbox';
@@ -15,8 +15,10 @@ import { amountTo, percentageTo } from '../utils/percentages';
 import axios from 'axios';
 import { ChangeEvent, useMemo, useReducer, useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router';
 
 export default function CreatePayment() {
+  const navigate = useNavigate();
   const { connectContract } = useContract();
   const { user } = useUser();
   const { wallet, walletType, walletAddress } = useWallet();
@@ -61,39 +63,39 @@ export default function CreatePayment() {
         amount: receiver.amount.toString(),
       };
     });
-
-    const data = API.post('payment-links/create', {
-      meta: JSON.stringify({
-        withInvoice: state.invoice,
-        businessData: state.businessData,
-        userDate: state.userData,
-        billingAddress: state.billingAddress,
-      }),
-      payments:
-        receivers.length === 0
-          ? [
-              {
-                to: walletAddress,
-                amount: state.amount.toString(),
-              },
-            ]
-          : receivers,
-    });
-
-    console.log(data);
-
-    if (!data) {
-      setLoading(false);
-      throw new Error('Problem');
-    }
-
-    const contract = await connectContract(
-      walletType === 'Metamask' ? 'EthContract' : 'ElrondContract',
-      walletAddress
-    );
-
-
     try {
+      const { data } = await api({
+        url: '/payment-links/create',
+        method: 'post',
+        data: {
+          meta: JSON.stringify({
+            withInvoice: state.invoice,
+            businessData: state.businessData,
+            userDate: state.userData,
+            billingAddress: state.billingAddress,
+          }),
+          payments:
+            receivers.length === 0
+              ? [
+                  {
+                    to: walletAddress,
+                    amount: state.amount.toString(),
+                  },
+                ]
+              : receivers,
+        },
+      });
+
+      if (!data) {
+        setLoading(false);
+        throw new Error('Problem');
+      }
+
+      const contract = await connectContract(
+        walletType === 'Metamask' ? 'EthContract' : 'ElrondContract',
+        walletAddress
+      );
+
       const transaction = await contract.createPaymentLink({
         paymentId: data.id,
         receivers,
@@ -104,13 +106,14 @@ export default function CreatePayment() {
           transaction
         );
         await contract.broadcastTransaction(signedTransaction);
-        dispatch({
-          type: ACTIONS.UPDATE_PAYMENT_ID,
-          payload: data.id,
-        });
       }
+      dispatch({
+        type: ACTIONS.UPDATE_PAYMENT_ID,
+        payload: data.id,
+      });
 
       toast.success('Payment link creation process started');
+      navigate(`/payments/complete/${data.id}`);
     } catch (err) {
       toast.error('Payment link cannot be created');
     }
