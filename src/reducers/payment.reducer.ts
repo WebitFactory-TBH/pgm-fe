@@ -23,6 +23,7 @@ export interface State {
   businessData: BusinessData;
   userData: UserData;
   billingAddress: string;
+  paymentId: '';
 }
 
 export enum ACTIONS {
@@ -34,7 +35,8 @@ export enum ACTIONS {
   TOGGLE_BUSINESS,
   UPDATE_BUSINESS_DATA,
   UPDATE_USER_DATA,
-  UPDATE_BILLING_ADDR
+  UPDATE_BILLING_ADDR,
+  UPDATE_PAYMENT_ID
 }
 
 export function reducer(state: State, action: any): State {
@@ -124,6 +126,13 @@ export function reducer(state: State, action: any): State {
       return {
         ...state,
         billingAddress: action.payload
+      };
+    }
+
+    case ACTIONS.UPDATE_PAYMENT_ID: {
+      return {
+        ...state,
+        paymentId: action.payload
       };
     }
 

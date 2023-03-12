@@ -22,8 +22,8 @@ import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 import BigNumber from 'bignumber.js';
 
 interface Receiver {
-  wallet: string;
-  amount: number;
+  to: string;
+  amount: string;
 }
 // test data
 
@@ -97,7 +97,7 @@ export default class ElrondContract implements ContractConnectI {
       );
       return Tuple.fromItems([
         new BigUIntValue(amountAsBigNumber),
-        new AddressValue(new Address(receiver.wallet))
+        new AddressValue(new Address(receiver.to))
       ]);
     });
 
@@ -131,7 +131,7 @@ export default class ElrondContract implements ContractConnectI {
     }
 
     const transactionPayload = TransactionPayload.contractCall()
-      .setFunction(new ContractFunction('completedPayment'))
+      .setFunction(new ContractFunction('completePayment'))
       .addArg(BytesValue.fromUTF8(paymentId))
       .build();
     const nonce = (await this.proxy.getAccount(this.sender)).nonce;
