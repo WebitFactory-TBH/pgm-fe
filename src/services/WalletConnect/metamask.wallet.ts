@@ -1,4 +1,5 @@
 import WalletI from './Wallet.interface';
+import { Transaction } from '@multiversx/sdk-core/out';
 import { Buffer } from 'buffer';
 
 export enum Chains {
@@ -84,5 +85,9 @@ export default class Metamask implements WalletI {
     }
 
     return signature;
+  }
+
+  async sendTransactionToSign(tx: Transaction) {
+    return tx;
   }
 }

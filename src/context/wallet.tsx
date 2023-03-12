@@ -60,7 +60,7 @@ const WalletProvider = (props: { children: React.ReactNode }) => {
       if (state.wallet && state.walletAddress)
         return { walletAddress: state.walletAddress, wallet: state.wallet };
 
-      const wallet: WalletI = new wallets[walletType]();
+      const wallet = new wallets[walletType]();
 
       try {
         const walletAddress = await wallet.init();
