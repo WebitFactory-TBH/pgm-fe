@@ -29,8 +29,8 @@ const receivers = [
 ];
 
 export default function CompletePayment() {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [loadingCancel, setLoadingCancel] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
+  const [loadingCancel, setLoadingCancel] = useState(false);
   const [wallet, setWallet] = useState<any>();
   const { connectWallet } = useWallet();
   const { connectContract } = useContract();
@@ -113,7 +113,7 @@ export default function CompletePayment() {
         </div>
 
         <Button
-          style={{ marginRight: '10px' }}
+          style={{ marginRight: '50px' }}
           onClick={startPaymentProcess}
           loading={loading}
         >
