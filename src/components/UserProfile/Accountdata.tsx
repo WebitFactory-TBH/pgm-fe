@@ -1,3 +1,4 @@
+import API from '../../api';
 import { useUser } from '../../context/user';
 import Button from '../shared/Button';
 import Input from '../shared/Input';
@@ -9,14 +10,20 @@ const validationSchema = yup.object({
 });
 
 export default function AccountData() {
-  const { user } = useUser();
+  const { user, setUser } = useUser();
 
   const formik = useFormik({
     initialValues: {
       nickname: user?.nickname,
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {},
+    onSubmit: async (values) => {
+      const res = await API.post('users/update', {
+        ...user,
+        nickname: values.nickname,
+      });
+      setUser({ ...user, ...res.data });
+    },
   });
 
   return (
