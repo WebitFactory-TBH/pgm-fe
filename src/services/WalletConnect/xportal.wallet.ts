@@ -1,5 +1,5 @@
 import WalletI from './Wallet.interface';
-import { SignableMessage } from '@multiversx/sdk-core/out';
+import { SignableMessage, Transaction } from '@multiversx/sdk-core/out';
 import { ExtensionProvider } from '@multiversx/sdk-extension-provider';
 
 export default class XPortal implements WalletI {
@@ -51,6 +51,14 @@ export default class XPortal implements WalletI {
       return true;
     } catch (error) {
       throw new Error('User denied message signature.');
+    }
+  }
+
+  async sendTransactionToSign(tx: Transaction) {
+    try {
+      return await this.provider.signTransaction(tx);
+    } catch (err) {
+      throw new Error('Problem occured');
     }
   }
 }

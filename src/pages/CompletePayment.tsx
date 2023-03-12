@@ -1,7 +1,6 @@
 import Button from '../components/shared/Button';
 import CustomBox from '../components/shared/CustomBox';
 import Subtitle from '../components/shared/Subtitle';
-import Text from '../components/shared/Text';
 import Title from '../components/shared/Title';
 import { useContract } from '../context/contract';
 import { useWallet } from '../context/wallet';
@@ -12,19 +11,19 @@ import { useParams } from 'react-router';
 const receivers = [
   {
     wallet: 'erd1v4723ex3trjydwqvla4f43wuu6xehhl8cgdufvawxm4httvtre6sgpvkzt',
-    amount: 3.2
+    amount: 1
   },
   {
     wallet: 'erd1ht592jyxht5p6yrak97t3j6lvh7em4e6cy5rhaelau8x8gglazgqpr2xu2',
-    amount: 2
+    amount: 0.01
   },
   {
     wallet: 'erd1mlgf0xxcnxp3kvcspz0q433cspjtxjfhjhxc9e40ct7y4rm2h4pqu50ypu',
-    amount: 12
+    amount: 0.01
   },
   {
     wallet: 'erd1rdveq6u2h2aqs85g8a22e0dhffs0c9jzaj7gqh45ccre7w5nsqmswdln2l',
-    amount: 0.00002232
+    amount: 0.01
   }
 ];
 
@@ -65,7 +64,15 @@ export default function CompletePayment() {
       const contract = await connectContract('ElrondContract', walletAddress);
 
       try {
-        await (contract as ContractConnectI).completePayment(payment.id);
+        const transaction = await (
+          contract as ContractConnectI
+        ).completePayment(payment.id, walletAddress);
+        const signedTransaction = await wallet.sendTransactionToSign(
+          transaction
+        );
+
+        const tx = await contract.broadcastTransaction(signedTransaction);
+        console.log(tx);
       } catch (err) {
         console.log(err);
       }
@@ -85,10 +92,18 @@ export default function CompletePayment() {
       const contract = await connectContract('ElrondContract', walletAddress);
 
       try {
-        await (contract as ContractConnectI).createPaymentLink({
+        const transaction = await (
+          contract as ContractConnectI
+        ).createPaymentLink({
           paymentId: payment.id,
           receivers
         });
+
+        const signedTransaction = await wallet.sendTransactionToSign(
+          transaction
+        );
+        const tx = await contract.broadcastTransaction(signedTransaction);
+        console.log(tx);
       } catch (err) {
         console.log(err);
       }

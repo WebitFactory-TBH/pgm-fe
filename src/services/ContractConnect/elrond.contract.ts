@@ -12,6 +12,9 @@ import {
   ResultsParser,
   SmartContract,
   SmartContractAbi,
+  TokenPayment,
+  Transaction,
+  TransactionPayload,
   Tuple,
   TypedValue
 } from '@multiversx/sdk-core';
@@ -79,6 +82,11 @@ export default class ElrondContract implements ContractConnectI {
     };
   }
 
+  async broadcastTransaction(tx: Transaction) {
+    const transaction = await this.proxy.sendTransaction(tx);
+    return transaction;
+  }
+
   async createPaymentLink(data: {
     paymentId: string;
     receivers: Array<Receiver>;
@@ -93,31 +101,52 @@ export default class ElrondContract implements ContractConnectI {
       ]);
     });
 
-    const response = await this.sendScQuery('createPaymentLink', [
-      BytesValue.fromUTF8(data.paymentId),
-      List.fromItems(convertedData)
-    ]);
+    const transactionPayload = TransactionPayload.contractCall()
+      .setFunction(new ContractFunction('createPaymentLink'))
+      .addArg(BytesValue.fromUTF8(data.paymentId))
+      .addArg(List.fromItems(convertedData))
+      .build();
+    const nonce = (await this.proxy.getAccount(this.sender)).nonce;
 
-    if (
-      typeof response?.parsedResponse === 'undefined' &&
-      response?.returnCode !== 'ok'
-    ) {
-      throw new Error(response?.returnMessage);
-    }
+    const transaction = new Transaction({
+      nonce,
+      receiver: this.contractAddress,
+      sender: this.sender,
+      chainID: 'D',
+      value: TokenPayment.egldFromAmount(0),
+      data: transactionPayload,
+      gasLimit: config.elrondGas
+    });
 
-    return response.parsedResponse;
+    return transaction;
   }
 
-  async completePayment(payementId: string) {
-    const response = await this.sendScQuery('completePayment', [
-      BytesValue.fromUTF8(payementId)
+  async completePayment(paymentId: string, walletAddress: string) {
+    const response = await this.sendScQuery('getRequiredAmount', [
+      BytesValue.fromUTF8(paymentId)
     ]);
 
     if (typeof response?.parsedResponse === 'undefined') {
       throw new Error(response?.returnMessage);
     }
 
-    return response.parsedResponse.valueOf();
+    const transactionPayload = TransactionPayload.contractCall()
+      .setFunction(new ContractFunction('completedPayment'))
+      .addArg(BytesValue.fromUTF8(paymentId))
+      .build();
+    const nonce = (await this.proxy.getAccount(this.sender)).nonce;
+
+    const transaction = new Transaction({
+      nonce,
+      receiver: this.contractAddress,
+      sender: new Address(walletAddress),
+      chainID: 'D',
+      value: TokenPayment.egldFromBigInteger(response.parsedResponse.valueOf()),
+      data: transactionPayload,
+      gasLimit: config.elrondGas
+    });
+
+    return transaction;
   }
 
   async cancelPayment(payementId: string) {
