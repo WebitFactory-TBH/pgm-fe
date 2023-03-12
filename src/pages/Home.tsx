@@ -1,3 +1,5 @@
+import Text from '../components/shared/Text';
+import Title from '../components/shared/Title';
 import { useContract } from '../context/contract';
 import { useEffect } from 'react';
 
@@ -16,5 +18,10 @@ export default function HomePage() {
     }
   }, [contract]);
 
-  return <>Home page</>;
+  return (
+    <>
+      <Title>Welcome to Pagament.io</Title>
+      <Text>Please login to continue</Text>
+    </>
+  );
 }

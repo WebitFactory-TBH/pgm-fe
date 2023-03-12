@@ -86,7 +86,7 @@ export default function WalletConnectBtn({ walletType }: ConnectBtnI) {
       const contractType = walletToContract(walletType);
       connectContract(contractType, walletAddress);
 
-      navigate('/');
+      navigate('/payments');
     } catch (err) {
       console.error(err);
       toast.error((err as any).message);
