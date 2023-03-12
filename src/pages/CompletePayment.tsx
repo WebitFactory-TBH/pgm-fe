@@ -6,6 +6,7 @@ import Title from '../components/shared/Title';
 import { useContract } from '../context/contract';
 import { useWallet } from '../context/wallet';
 import ContractConnectI from '../services/ContractConnect/Contract.interface';
+import walletToContract from '../utils/walletToContract';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
@@ -21,29 +22,36 @@ export default function CompletePayment() {
     const res = await API.post(`payment-links/data`, {
       paymentId: params.id,
     });
-    console.log(res);
-
     setPayment(res.data);
   };
 
   const startPaymentProcess = async () => {
     setLoading(true);
+    const walletType = payment.creatorWallet.address.includes('0x')
+      ? 'Metamask'
+      : 'XPortal';
     try {
-      const { wallet, walletAddress } = await connectWallet('XPortal');
+      const { wallet, walletAddress } = await connectWallet(walletType);
       setWallet(wallet);
 
-      const contract = await connectContract('ElrondContract', walletAddress);
+      const contract = await connectContract(
+        walletToContract(walletType),
+        walletAddress
+      );
 
       try {
         const transaction = await (
           contract as ContractConnectI
         ).completePayment(payment.id, walletAddress);
-        const signedTransaction = await wallet.sendTransactionToSign(
-          transaction
-        );
+        
+        if (walletType == 'XPortal') {
+          const signedTransaction = await wallet.sendTransactionToSign(
+            transaction
+          );
 
-        const tx = await contract.broadcastTransaction(signedTransaction);
-        console.log(tx);
+          const tx = await contract.broadcastTransaction(signedTransaction);
+          console.log(tx);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -58,7 +66,6 @@ export default function CompletePayment() {
     getPayment();
   }, []);
 
-  return <></>;
   return (
     <>
       <Title>Complete payment</Title>
