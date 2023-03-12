@@ -150,7 +150,7 @@ export default function Payments() {
 
                   <td className='px-6 py-4 flex justify-end items-center'>
                     <div
-                      onClick={() => download(payment.id)}
+                      onClick={() => download(payment)}
                       className='mr-2 text-sm text-blue-600 cursor-pointer'
                     >
                       Invoice
