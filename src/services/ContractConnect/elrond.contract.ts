@@ -149,15 +149,23 @@ export default class ElrondContract implements ContractConnectI {
     return transaction;
   }
 
-  async cancelPayment(payementId: string) {
-    const response = await this.sendScQuery('cancelPayment', [
-      BytesValue.fromUTF8(payementId)
-    ]);
+  async cancelPayment(paymentId: string) {
+    const transactionPayload = TransactionPayload.contractCall()
+      .setFunction(new ContractFunction('cancelPayment'))
+      .addArg(BytesValue.fromUTF8(paymentId))
+      .build();
+    const nonce = (await this.proxy.getAccount(this.sender)).nonce;
 
-    if (typeof response?.parsedResponse === 'undefined') {
-      throw new Error(response?.returnMessage);
-    }
+    const transaction = new Transaction({
+      nonce,
+      receiver: this.contractAddress,
+      sender: this.sender,
+      chainID: 'D',
+      value: TokenPayment.egldFromAmount(0),
+      data: transactionPayload,
+      gasLimit: config.elrondGas
+    });
 
-    return response.parsedResponse.valueOf();
+    return transaction;
   }
 }
