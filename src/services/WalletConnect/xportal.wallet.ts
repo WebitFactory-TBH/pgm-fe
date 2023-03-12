@@ -43,12 +43,12 @@ export default class XPortal implements WalletI {
 
   async signMessage(message: string) {
     const signableMessage = new SignableMessage({
-      message: Buffer.from(message)
+      message: Buffer.from(message),
     });
 
     try {
       await this.provider.signMessage(signableMessage);
-      return true;
+      return (signableMessage.toJSON() as any).signature;
     } catch (error) {
       throw new Error('User denied message signature.');
     }

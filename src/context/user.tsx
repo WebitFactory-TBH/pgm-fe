@@ -4,6 +4,7 @@ import React from 'react';
 export interface User {
   id: string;
   nickname: string;
+  wallets: any;
 }
 
 interface UserProviderProps {

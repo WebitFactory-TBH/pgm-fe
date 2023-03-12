@@ -5,5 +5,7 @@ export const config = {
   elrondContractAddress:
     'erd1qqqqqqqqqqqqqpgqt6xlauatj3phxu39ur9uw390ugxugza8rlzqumyhmy',
   elrondNetworkProvider: 'https://elrond-api-devnet.public.blastapi.io',
-  elrondGas: 50000000
+  elrondGas: 50000000,
+  MetamaskChainId: 'clf54sdqy0004ark2knu4orr4',
+  XPortalChainId: 'clf54sdfy0002ark20aw067ua'
 };
