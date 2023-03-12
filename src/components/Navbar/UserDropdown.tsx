@@ -25,7 +25,7 @@ export default function UserDropdown() {
   };
 
   return (
-    <Menu as="div" className="relative inline-block text-left">
+    <Menu as="div" className="relative inline-block text-left text-white">
       <div>
         <Menu.Button>
           <Text style="text-right font-semibold">{user?.nickname}</Text>
