@@ -5,6 +5,11 @@ export interface User {
   id: string;
   nickname: string;
   wallets: any;
+  billingAddress: string;
+  firstName: string;
+  lastName: string;
+  companyName: string;
+  companyRegNo: string;
 }
 
 interface UserProviderProps {

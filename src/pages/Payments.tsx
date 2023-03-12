@@ -1,14 +1,17 @@
+import API from '../api';
 import Button from '../components/shared/Button';
+import Subtitle from '../components/shared/Subtitle';
 import Title from '../components/shared/Title';
 import { config } from '../config';
 import { useContract } from '../context/contract';
 import { useWallet } from '../context/wallet';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
 export default function Payments() {
   const [loading, setLoading] = useState<boolean>(false);
+  const [payments, setPayments] = useState<any>([]);
   const { contract, connectContract } = useContract();
   const { walletAddress } = useWallet();
 
@@ -28,47 +31,15 @@ export default function Payments() {
     }
   };
 
-  const payments = [
-    {
-      id: '123',
-      blockchain: 'Ethereum',
-      amount: 32,
-      status: 'pending',
-      from: '',
-      receivers: [
-        {
-          wallet: '0xdsad213213',
-          amount: '1',
-        },
-      ],
-    },
-    {
-      id: '1233',
-      blockchain: 'Ethereum',
-      amount: 32,
-      status: 'canceled',
-      from: '',
-      receivers: [
-        {
-          wallet: '0xdsad213213',
-          amount: '1',
-        },
-      ],
-    },
-    {
-      id: '1232',
-      blockchain: 'Ethereum',
-      amount: 32,
-      status: 'paid',
-      from: '0xdksjaldajslkj12k313213',
-      receivers: [
-        {
-          wallet: '0xdsad213213',
-          amount: '1',
-        },
-      ],
-    },
-  ];
+  const getPayments = async () => {
+    const rez = await API.get('users/payments');
+    setPayments(rez.data);
+  };
+
+  useEffect(() => {
+    getPayments();
+  }, []);
+
   return (
     <>
       <div className="flex justify-between">
@@ -105,7 +76,8 @@ export default function Payments() {
             </tr>
           </thead>
           <tbody>
-            {payments.map((payment) => {
+            {!payments.length && <Subtitle>No payments</Subtitle>}
+            {payments.map((payment: any) => {
               return (
                 <tr key={payment.id} className="bg-white dark:bg-gray-800">
                   <th
