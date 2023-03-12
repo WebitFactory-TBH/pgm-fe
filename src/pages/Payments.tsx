@@ -5,6 +5,7 @@ import { useContract } from '../context/contract';
 import { useWallet } from '../context/wallet';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 export default function Payments() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -70,7 +71,12 @@ export default function Payments() {
   ];
   return (
     <>
-      <Title>Payments</Title>
+      <div className="flex justify-between">
+        <Title>Payments</Title>
+        <Link to="/payments/create">
+          <Button>Create payment</Button>
+        </Link>
+      </div>
       <div className="relative overflow-x-auto mt-5">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-[#f9f9f9] dark:bg-gray-700 dark:text-gray-400">

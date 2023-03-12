@@ -99,7 +99,7 @@ export default function InvoiceData() {
         }}
       />
 
-      <Button>Save</Button>
+      <Button>Update</Button>
     </>
   );
 }

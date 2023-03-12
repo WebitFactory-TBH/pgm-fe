@@ -244,7 +244,7 @@ export default function CreatePayment() {
       )}
 
       {/* receivers */}
-      <CustomBox>
+      <CustomBox style="mb-12">
         <Subtitle>Receivers</Subtitle>
         <div className="w-full flex flex-row justify-between items-center mt-4">
           <div>
