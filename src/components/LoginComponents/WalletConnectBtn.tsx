@@ -32,7 +32,7 @@ export default function WalletConnectBtn({ walletType }: ConnectBtnI) {
       // 2. make API call to get token to sign
       const token = (
         await API.post('authentication/requestToken', {
-          walletAddress,
+          walletAddress
         })
       ).data;
 
@@ -40,10 +40,10 @@ export default function WalletConnectBtn({ walletType }: ConnectBtnI) {
       const signature = await (wallet as WalletI).signMessage(token);
       const verification = await API.post('authentication/verifyToken', {
         token,
-        signature,
+        signature
       });
 
-      if (verification.status != 200) {
+      if (verification.status !== 200) {
         throw new Error('Signature not valid.');
       }
 
@@ -52,30 +52,30 @@ export default function WalletConnectBtn({ walletType }: ConnectBtnI) {
         headers: {
           'Access-Control-Allow-Origin': '*',
           token,
-          signature,
-        },
+          signature
+        }
       });
 
-      if (!user) {
+      if (!user.data) {
         // create user
         await API.post('authentication/createAccount', {
           token,
           signature,
           chainId: config[`${walletType}ChainId`],
-          nickname: '',
+          nickname: 'Nickname' + Math.random(),
           firstName: '',
           lastName: '',
           billingAddress: '',
           companyName: '',
-          companyRegNo: '',
+          companyRegNo: ''
         });
 
         user = await API.get('users/data', {
           headers: {
             'Access-Control-Allow-Origin': '*',
             token,
-            signature,
-          },
+            signature
+          }
         });
       }
 
@@ -96,10 +96,10 @@ export default function WalletConnectBtn({ walletType }: ConnectBtnI) {
   return (
     <div
       onClick={() => login(walletType)}
-      className="cursor-pointer w-100 bg-transparent hover:bg-gray-100 text-gray-600 font-medium py-3 px-5 my-2 flex justify-between transition-all rounded-md"
+      className='cursor-pointer w-100 bg-transparent hover:bg-gray-100 text-gray-600 font-medium py-3 px-5 my-2 flex justify-between transition-all rounded-md'
     >
       {walletType}
-      <img className="w-6 mr-2 rounded-md" src={`/${walletType}.png`} />
+      <img className='w-6 mr-2 rounded-md' src={`/${walletType}.png`} />
     </div>
   );
 }
