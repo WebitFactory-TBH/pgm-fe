@@ -6,6 +6,11 @@ import { Contract } from 'web3-eth-contract';
 
 declare const ethereum: any;
 
+interface Receiver {
+  wallet: string;
+  amount: number;
+}
+
 export default class EthContract implements ContractConnectI {
   contractAddress: string;
   contract: Contract | undefined;
@@ -26,12 +31,55 @@ export default class EthContract implements ContractConnectI {
     );
   }
 
-  createPaymentLink(data: any) {
+  createPaymentLink(data: { paymentId: string; receivers: Array<Receiver> }) {
+    // DATA ARGUMENTS
+    const convertedData = data.receivers.map((receiver) => {
+      const amountAsBigNumber = this._web3.utils.toWei(
+        receiver.amount.toString(),
+        'ether'
+      );
+      // return [receiver.wallet, amountAsBigNumber];
+      return {
+        addr: receiver.wallet,
+        amount: amountAsBigNumber,
+      };
+    });
+
+    // CREATE TRANSACTION
+    // console.log('aici ajunge');
+
+    // const encoded = this.contract?.methods
+    //   .createPayment(convertedData, data.paymentId)
+    //   .encodeABI();
+
+    // console.log('aici nu mai ajunge');
+
+    // var tx = {
+    //   to: this.contractAddress,
+    //   data: encoded,
+    // };
+
+    // // SIGN TRANSACTION
+    // const signPromise = this._web3.eth.signTransaction(
+    //   tx,
+    //   this._web3.eth.defaultAccount
+    // );
+
+    // console.log({ signPromise });
+
+    // SENT TRANSACTION
+    // this._web3.eth.accounts.signTransaction(tx, privateKey).then((signed) => {
+    //   this._web3.eth
+    //     .sendSignedTransaction(signed.rawTransaction)
+    //     .on('receipt', console.log);
+    // });
+
+    // NORMAL FLOW WITH FUNCTION CALL
+
     return new Promise((resolve, reject) => {
       let _web3 = this._web3;
       this.contract?.methods
-        // .createPayment(saleIndex, _web3.utils.toWei(amount))
-        .createPayment(data)
+        .createPayment(convertedData, data.paymentId)
         .send(
           { from: _web3.eth.defaultAccount, value: 0 },
           function (err: any, result: any) {

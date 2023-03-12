@@ -29,26 +29,26 @@ export default function WalletConnectBtn({ walletType }: ConnectBtnI) {
       const { walletAddress, wallet } = await connectWallet(walletType);
 
       // 2. make API call to get token to sign
-      // const token = 'Message to sign';
-      const token = (
-        await API.post('authentication/requestToken', {
-          walletAddress,
-        })
-      ).data;
-      console.log({ token });
+      const token = 'Message to sign';
+      // const token = (
+      //   await API.post('authentication/requestToken', {
+      //     walletAddress,
+      //   })
+      // ).data;
+      // console.log({ token });
 
       // 3. sign and verify message
       const signature = await (wallet as WalletI).signMessage(token);
-      const verification = await API.post('authentication/verifyToken', {
-        token,
-        signature,
-      });
+      // const verification = await API.post('authentication/verifyToken', {
+      //   token,
+      //   signature,
+      // });
 
-      console.log(verification.status);
+      // console.log(verification.status);
 
-      if (verification.status != 200) {
-        throw new Error('Signature not valid.');
-      }
+      // if (verification.status != 200) {
+      //   throw new Error('Signature not valid.');
+      // }
 
       // 4. get user and save data
       const user = {
