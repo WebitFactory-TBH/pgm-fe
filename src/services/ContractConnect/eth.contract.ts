@@ -7,7 +7,7 @@ import { Contract } from 'web3-eth-contract';
 declare const ethereum: any;
 
 interface Receiver {
-  wallet: string;
+  to: string;
   amount: number;
 }
 
@@ -40,8 +40,8 @@ export default class EthContract implements ContractConnectI {
       );
       // return [receiver.wallet, amountAsBigNumber];
       return {
-        addr: receiver.wallet,
-        amount: amountAsBigNumber,
+        addr: receiver.to,
+        amount: amountAsBigNumber
       };
     });
 
