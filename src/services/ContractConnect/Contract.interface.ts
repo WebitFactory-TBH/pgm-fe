@@ -3,10 +3,10 @@ import { Address, Transaction } from '@multiversx/sdk-core';
 export default interface ContractConnectI {
   contractAddress: Address | string;
   contract: any;
-  createPaymentLink: (data: any) => Promise<Transaction>;
+  createPaymentLink: (data: any) => Promise<Transaction | any>;
   completePayment: (
-    payemntId: any,
+    paymentId: any,
     walletAddress: string
-  ) => Promise<Transaction>;
+  ) => Promise<Transaction | any>;
   cancelPayment: (payemntId: any) => Promise<any>;
 }

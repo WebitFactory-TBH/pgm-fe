@@ -1,10 +1,14 @@
+import API from '../../api';
 import Icon from '../../assets/icons';
+import { config } from '../../config';
+import { useUser } from '../../context/user';
 import { useWallet } from '../../context/wallet';
 import WalletI from '../../services/WalletConnect/Wallet.interface';
 import { WalletTypes } from '../../types/WalletTypes';
 import { shortenHash } from '../../utils/shortenHash';
 import Button from '../shared/Button';
 import Text from '../shared/Text';
+import { useEffect, useState } from 'react';
 // import FeatherIcon from 'feather-icons-react';
 import toast from 'react-hot-toast';
 
@@ -12,13 +16,8 @@ const wallets: WalletTypes[] = ['Metamask', 'XPortal'];
 
 export default function ConnectedWallets() {
   const { connectWallet } = useWallet();
-
-  const connectedWallets = [
-    {
-      name: 'Metamask',
-      wallet: '0x4143123kl23kl112l3k1',
-    },
-  ];
+  const { user, setUser } = useUser();
+  const [connectedWallets, setConnectedWallets] = useState<any>([]);
 
   const linkWallet = async (walletType: WalletTypes) => {
     try {
@@ -26,17 +25,74 @@ export default function ConnectedWallets() {
       const { walletAddress, wallet } = await connectWallet(walletType);
 
       // 2. make API call with walletAddr that returns message to sign
-      const message = 'Message to sign';
+      const token = (
+        await API.post('authentication/requestToken', {
+          walletAddress,
+        })
+      ).data;
 
       // 3. sign message
-      const signedMessage = await (wallet as WalletI).signMessage(message);
+      const signature = await (wallet as WalletI).signMessage(token);
+      const verification = await API.post('authentication/verifyToken', {
+        token,
+        signature,
+      });
+
+      if (verification.status != 200) {
+        throw new Error('Signature not valid.');
+      }
 
       // 4. make API call to link account
+      const response = API.post(
+        'users/link-wallet',
+        {
+          chainId: config[`${walletType}ChainId`],
+          userId: user?.id,
+        },
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            token,
+            signature,
+          },
+        }
+      );
+
+      const user2 = await API.get('users/data', {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          token,
+          signature,
+        },
+      });
+
+      setUser(user2.data);
     } catch (err) {
       console.error(err);
       toast.error((err as any).message);
     }
   };
+
+  useEffect(() => {
+    if (!user) return;
+    console.log(user);
+    const tmp: any = [];
+    user?.wallets.forEach((wallet: any) => {
+      if (wallet.address.includes('0x')) {
+        tmp.push({
+          name: 'Metamask',
+          wallet: wallet.address,
+        });
+      } else {
+        tmp.push({
+          name: 'XPortal',
+          wallet: wallet.address,
+        });
+      }
+    });
+
+    setConnectedWallets(tmp);
+  }, [user]);
 
   return (
     <>
@@ -61,7 +117,10 @@ export default function ConnectedWallets() {
                   />
                   <Text style="font-semibold inline-block ml-2">Connected</Text>
                   <Text style="text-gray-400">
-                    {shortenHash(connectedWallets[0].wallet)}
+                    {shortenHash(
+                      connectedWallets.find((el: any) => el.name === wallet)
+                        .wallet
+                    )}
                   </Text>
                 </div>
               ) : (

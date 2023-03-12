@@ -94,7 +94,7 @@ export default class EthContract implements ContractConnectI {
     }) as Promise<any>;
   }
 
-  completePayment(paymentId: string) {
+  completePayment(paymentId: any, wallet: string) {
     return new Promise((resolve, reject) => {
       let _web3 = this._web3;
       this.contract?.methods

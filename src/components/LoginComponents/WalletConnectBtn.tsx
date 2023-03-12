@@ -1,4 +1,5 @@
 import API from '../../api';
+import { config } from '../../config';
 import { useContract } from '../../context/contract';
 import { useUser } from '../../context/user';
 import { useWallet } from '../../context/wallet';
@@ -29,34 +30,56 @@ export default function WalletConnectBtn({ walletType }: ConnectBtnI) {
       const { walletAddress, wallet } = await connectWallet(walletType);
 
       // 2. make API call to get token to sign
-      const token = 'Message to sign';
-      // const token = (
-      //   await API.post('authentication/requestToken', {
-      //     walletAddress,
-      //   })
-      // ).data;
-      // console.log({ token });
+      const token = (
+        await API.post('authentication/requestToken', {
+          walletAddress,
+        })
+      ).data;
 
-      // 3. sign and verify message
+      // 3. sign and verify messagex
       const signature = await (wallet as WalletI).signMessage(token);
-      // const verification = await API.post('authentication/verifyToken', {
-      //   token,
-      //   signature,
-      // });
+      const verification = await API.post('authentication/verifyToken', {
+        token,
+        signature,
+      });
 
-      // console.log(verification.status);
-
-      // if (verification.status != 200) {
-      //   throw new Error('Signature not valid.');
-      // }
+      if (verification.status != 200) {
+        throw new Error('Signature not valid.');
+      }
 
       // 4. get user and save data
-      const user = {
-        id: '312321',
-        nickname: 'crsssss',
-      };
+      let user = await API.get('users/data', {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          token,
+          signature,
+        },
+      });
 
-      setUser(user);
+      if (!user) {
+        // create user
+        await API.post('authentication/createAccount', {
+          token,
+          signature,
+          chainId: config[`${walletType}ChainId`],
+          nickname: '',
+          firstName: '',
+          lastName: '',
+          billingAddress: '',
+          companyName: '',
+          companyRegNo: '',
+        });
+
+        user = await API.get('users/data', {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            token,
+            signature,
+          },
+        });
+      }
+
+      setUser(user.data);
       setWalletDataLocal({ walletAddress, token, signature });
 
       // 5. connect to smart contract
