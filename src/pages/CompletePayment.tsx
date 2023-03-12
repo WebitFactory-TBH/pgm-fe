@@ -19,9 +19,23 @@ export default function CompletePayment() {
   const params = useParams();
 
   const getPayment = async () => {
-    const res = await API.post(`payment-links/data`, {
-      paymentId: params.id,
-    });
+    const res = await API.post(
+      `payment-links/data`,
+      {
+        paymentId: params.id,
+      },
+      {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          token:
+            JSON.parse(window.localStorage.getItem('walletData') ?? 'null')
+              ?.token ?? null,
+          signature:
+            JSON.parse(window.localStorage.getItem('walletData') ?? 'null')
+              ?.signature ?? null,
+        },
+      }
+    );
     setPayment(res.data);
   };
 
@@ -43,7 +57,7 @@ export default function CompletePayment() {
         const transaction = await (
           contract as ContractConnectI
         ).completePayment(payment.id, walletAddress);
-        
+
         if (walletType == 'XPortal') {
           const signedTransaction = await wallet.sendTransactionToSign(
             transaction

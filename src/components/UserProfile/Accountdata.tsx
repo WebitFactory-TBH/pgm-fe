@@ -18,10 +18,24 @@ export default function AccountData() {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      const res = await API.post('users/update', {
-        ...user,
-        nickname: values.nickname,
-      });
+      const res = await API.post(
+        'users/update',
+        {
+          ...user,
+          nickname: values.nickname,
+        },
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            token:
+              JSON.parse(window.localStorage.getItem('walletData') ?? 'null')
+                ?.token ?? null,
+            signature:
+              JSON.parse(window.localStorage.getItem('walletData') ?? 'null')
+                ?.signature ?? null,
+          },
+        }
+      );
       setUser({ ...user, ...res.data });
     },
   });
