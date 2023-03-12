@@ -1,243 +1,241 @@
 {
-    "buildInfo": {
-        "rustc": {
-            "version": "1.70.0-nightly",
-            "commitHash": "39f2657d1101b50f9b71ae460b762d330cc8426b",
-            "commitDate": "2023-03-09",
-            "channel": "Nightly",
-            "short": "rustc 1.70.0-nightly (39f2657d1 2023-03-09)"
-        },
-        "contractCrate": {
-            "name": "split-payments",
-            "version": "0.0.0"
-        },
-        "framework": {
-            "name": "multiversx-sc",
-            "version": "0.39.5"
-        }
+  "buildInfo": {
+    "rustc": {
+      "version": "1.70.0-nightly",
+      "commitHash": "39f2657d1101b50f9b71ae460b762d330cc8426b",
+      "commitDate": "2023-03-09",
+      "channel": "Nightly",
+      "short": "rustc 1.70.0-nightly (39f2657d1 2023-03-09)"
     },
-    "name": "SplitPaymentsContract",
-    "constructor": {
-        "inputs": [],
-        "outputs": []
+    "contractCrate": {
+      "name": "split-payments",
+      "version": "0.0.0"
     },
-    "endpoints": [
-        {
-            "name": "isEnabled",
-            "mutability": "readonly",
-            "inputs": [],
-            "outputs": [
-                {
-                    "type": "bool"
-                }
-            ]
-        },
-        {
-            "name": "getOwner",
-            "mutability": "readonly",
-            "inputs": [],
-            "outputs": [
-                {
-                    "type": "Address"
-                }
-            ]
-        },
-        {
-            "name": "getCommissionRate",
-            "mutability": "readonly",
-            "inputs": [],
-            "outputs": [
-                {
-                    "type": "BigUint"
-                }
-            ]
-        },
-        {
-            "name": "createPaymentLink",
-            "mutability": "mutable",
-            "inputs": [
-                {
-                    "name": "payments",
-                    "type": "List<IndividualPayment>"
-                }
-            ],
-            "outputs": [
-                {
-                    "type": "u32"
-                }
-            ]
-        },
-        {
-            "name": "completePayment",
-            "mutability": "mutable",
-            "payableInTokens": [
-                "EGLD"
-            ],
-            "inputs": [
-                {
-                    "name": "payment_id",
-                    "type": "u32"
-                }
-            ],
-            "outputs": []
-        },
-        {
-            "name": "cancelPayment",
-            "mutability": "mutable",
-            "inputs": [
-                {
-                    "name": "payment_id",
-                    "type": "u32"
-                }
-            ],
-            "outputs": []
-        },
-        {
-            "name": "setCommissionRate",
-            "mutability": "mutable",
-            "inputs": [
-                {
-                    "name": "commission_rate",
-                    "type": "BigUint"
-                }
-            ],
-            "outputs": []
-        },
-        {
-            "name": "disableContract",
-            "mutability": "mutable",
-            "inputs": [],
-            "outputs": []
-        },
-        {
-            "name": "enableContract",
-            "mutability": "mutable",
-            "inputs": [],
-            "outputs": []
-        },
-        {
-            "name": "getRequiredAmount",
-            "mutability": "readonly",
-            "inputs": [
-                {
-                    "name": "payment_id",
-                    "type": "u32"
-                }
-            ],
-            "outputs": [
-                {
-                    "type": "BigUint"
-                }
-            ]
-        },
-        {
-            "name": "getPaymentStatus",
-            "mutability": "readonly",
-            "inputs": [
-                {
-                    "name": "payment_id",
-                    "type": "u32"
-                }
-            ],
-            "outputs": [
-                {
-                    "type": "Status"
-                }
-            ]
-        }
-    ],
-    "events": [
-        {
-            "identifier": "createdPaymentLink",
-            "inputs": [
-                {
-                    "name": "payment_id",
-                    "type": "u32",
-                    "indexed": true
-                },
-                {
-                    "name": "creator",
-                    "type": "Address",
-                    "indexed": true
-                }
-            ]
-        },
-        {
-            "identifier": "completedPayment",
-            "inputs": [
-                {
-                    "name": "payment_id",
-                    "type": "u32",
-                    "indexed": true
-                }
-            ]
-        },
-        {
-            "identifier": "cancelledPayment",
-            "inputs": [
-                {
-                    "name": "payment_id",
-                    "type": "u32",
-                    "indexed": true
-                }
-            ]
-        },
-        {
-            "identifier": "individualPaymentCompleted",
-            "inputs": [
-                {
-                    "name": "payment_id",
-                    "type": "u32",
-                    "indexed": true
-                },
-                {
-                    "name": "from",
-                    "type": "Address",
-                    "indexed": true
-                },
-                {
-                    "name": "destination",
-                    "type": "Address",
-                    "indexed": true
-                },
-                {
-                    "name": "amount",
-                    "type": "BigUint"
-                }
-            ]
-        }
-    ],
-    "hasCallback": false,
-    "types": {
-        "IndividualPayment": {
-            "type": "struct",
-            "fields": [
-                {
-                    "name": "amount",
-                    "type": "BigUint"
-                },
-                {
-                    "name": "destination",
-                    "type": "Address"
-                }
-            ]
-        },
-        "Status": {
-            "type": "enum",
-            "variants": [
-                {
-                    "name": "Pending",
-                    "discriminant": 0
-                },
-                {
-                    "name": "Completed",
-                    "discriminant": 1
-                },
-                {
-                    "name": "Cancelled",
-                    "discriminant": 2
-                }
-            ]
-        }
+    "framework": {
+      "name": "multiversx-sc",
+      "version": "0.39.5"
     }
+  },
+  "name": "SplitPaymentsContract",
+  "constructor": {
+    "inputs": [],
+    "outputs": []
+  },
+  "endpoints": [
+    {
+      "name": "isEnabled",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "getOwner",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "Address"
+        }
+      ]
+    },
+    {
+      "name": "getCommissionRate",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "BigUint"
+        }
+      ]
+    },
+    {
+      "name": "createPaymentLink",
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "payment_id",
+          "type": "utf-8 string"
+        },
+        {
+          "name": "payments",
+          "type": "List<IndividualPayment>"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "completePayment",
+      "mutability": "mutable",
+      "payableInTokens": ["EGLD"],
+      "inputs": [
+        {
+          "name": "payment_id",
+          "type": "utf-8 string"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "cancelPayment",
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "payment_id",
+          "type": "utf-8 string"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "setCommissionRate",
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "commission_rate",
+          "type": "BigUint"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "disableContract",
+      "mutability": "mutable",
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "name": "enableContract",
+      "mutability": "mutable",
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "name": "getRequiredAmount",
+      "mutability": "readonly",
+      "inputs": [
+        {
+          "name": "payment_id",
+          "type": "utf-8 string"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "BigUint"
+        }
+      ]
+    },
+    {
+      "name": "getPaymentStatus",
+      "mutability": "readonly",
+      "inputs": [
+        {
+          "name": "payment_id",
+          "type": "utf-8 string"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "Status"
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "identifier": "createdPaymentLink",
+      "inputs": [
+        {
+          "name": "payment_id",
+          "type": "utf-8 string",
+          "indexed": true
+        },
+        {
+          "name": "creator",
+          "type": "Address",
+          "indexed": true
+        }
+      ]
+    },
+    {
+      "identifier": "completedPayment",
+      "inputs": [
+        {
+          "name": "payment_id",
+          "type": "utf-8 string",
+          "indexed": true
+        }
+      ]
+    },
+    {
+      "identifier": "cancelledPayment",
+      "inputs": [
+        {
+          "name": "payment_id",
+          "type": "utf-8 string",
+          "indexed": true
+        }
+      ]
+    },
+    {
+      "identifier": "individualPaymentCompleted",
+      "inputs": [
+        {
+          "name": "payment_id",
+          "type": "utf-8 string",
+          "indexed": true
+        },
+        {
+          "name": "from",
+          "type": "Address",
+          "indexed": true
+        },
+        {
+          "name": "destination",
+          "type": "Address",
+          "indexed": true
+        },
+        {
+          "name": "amount",
+          "type": "BigUint"
+        }
+      ]
+    }
+  ],
+  "hasCallback": false,
+  "types": {
+    "IndividualPayment": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "amount",
+          "type": "BigUint"
+        },
+        {
+          "name": "destination",
+          "type": "Address"
+        }
+      ]
+    },
+    "Status": {
+      "type": "enum",
+      "variants": [
+        {
+          "name": "Pending",
+          "discriminant": 0
+        },
+        {
+          "name": "Completed",
+          "discriminant": 1
+        },
+        {
+          "name": "Cancelled",
+          "discriminant": 2
+        }
+      ]
+    }
+  }
 }

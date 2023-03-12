@@ -80,6 +80,4 @@ export default class EthContract implements ContractConnectI {
         });
     }) as Promise<boolean>;
   }
-
-  getRequiredAmount() {}
 }

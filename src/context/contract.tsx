@@ -10,7 +10,7 @@ interface ContractContextI {
 
 const defaultState: ContractContextI = {
   contract: null,
-  connectContract: () => {},
+  connectContract: () => {}
 };
 
 // !TODO adauga action payload types pentru typesafety (vezi reducer portfolios hodlezz mobile)
@@ -22,7 +22,7 @@ const reducer = (state: any, action: any) => {
     case 'SET_CONTRACT': {
       return {
         ...state,
-        ...action.payload,
+        ...action.payload
       };
     }
     default: {
@@ -49,14 +49,14 @@ const ContractProvider = (props: { children: React.ReactNode }) => {
         );
         dispatch({
           type: 'SET_CONTRACT',
-          payload: { contract },
+          payload: { contract }
         });
         return contract;
       } catch (err) {
         console.error(err);
         throw new Error('There was an error connecting to smart contract.');
       }
-    },
+    }
   };
 
   return (
