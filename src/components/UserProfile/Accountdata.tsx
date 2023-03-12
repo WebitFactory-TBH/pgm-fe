@@ -1,10 +1,11 @@
 import { useUser } from '../../context/user';
+import Button from '../shared/Button';
 import Input from '../shared/Input';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 const validationSchema = yup.object({
-  nickname: yup.string().required('Nickname is required')
+  nickname: yup.string().required('Nickname is required'),
 });
 
 export default function AccountData() {
@@ -12,10 +13,10 @@ export default function AccountData() {
 
   const formik = useFormik({
     initialValues: {
-      nickname: user?.nickname
+      nickname: user?.nickname,
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {}
+    onSubmit: async (values) => {},
   });
 
   return (
@@ -24,9 +25,10 @@ export default function AccountData() {
         defaultValue={formik.values.nickname}
         value={formik.values.nickname}
         onChange={formik.handleChange}
-        name='nickname'
-        placeholder='Nickname'
+        name="nickname"
+        placeholder="Nickname"
       />
+      <Button>Update</Button>
     </form>
   );
 }

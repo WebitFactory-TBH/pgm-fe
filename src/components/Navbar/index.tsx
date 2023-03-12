@@ -13,10 +13,6 @@ export default function Navbar() {
     {
       label: 'Payments',
       link: '/payments'
-    },
-    {
-      label: 'Create payment',
-      link: '/payments/create'
     }
   ];
 

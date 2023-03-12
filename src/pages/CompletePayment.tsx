@@ -10,20 +10,20 @@ import { useParams } from 'react-router';
 
 const receivers = [
   {
-    wallet: 'erd1v4723ex3trjydwqvla4f43wuu6xehhl8cgdufvawxm4httvtre6sgpvkzt',
-    amount: 1
+    wallet: '0x4c42149e3F427077ffdeDD09433959076C30b019',
+    amount: 0.002
   },
   {
-    wallet: 'erd1ht592jyxht5p6yrak97t3j6lvh7em4e6cy5rhaelau8x8gglazgqpr2xu2',
-    amount: 0.01
+    wallet: '0x4c42149e3F427077ffdeDD09433959076C30b019',
+    amount: 0.005
   },
   {
-    wallet: 'erd1mlgf0xxcnxp3kvcspz0q433cspjtxjfhjhxc9e40ct7y4rm2h4pqu50ypu',
-    amount: 0.01
+    wallet: '0x4c42149e3F427077ffdeDD09433959076C30b019',
+    amount: 0.001
   },
   {
-    wallet: 'erd1rdveq6u2h2aqs85g8a22e0dhffs0c9jzaj7gqh45ccre7w5nsqmswdln2l',
-    amount: 0.01
+    wallet: '0x4c42149e3F427077ffdeDD09433959076C30b019',
+    amount: 0.00002232
   }
 ];
 
@@ -86,10 +86,10 @@ export default function CompletePayment() {
   const createMockPaymentLink = async () => {
     setLoading(true);
     try {
-      const { wallet, walletAddress } = await connectWallet('XPortal');
+      const { wallet, walletAddress } = await connectWallet('Metamask');
       setWallet(wallet);
 
-      const contract = await connectContract('ElrondContract', walletAddress);
+      const contract = await connectContract('EthContract', walletAddress);
 
       try {
         const transaction = await (
@@ -105,7 +105,7 @@ export default function CompletePayment() {
         const tx = await contract.broadcastTransaction(signedTransaction);
         console.log(tx);
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
       setLoading(false);
     } catch (err) {
