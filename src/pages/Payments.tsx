@@ -55,12 +55,12 @@ export default function Payments() {
               <th scope="col" className="px-6 py-4 rounded-l-lg w-32">
                 Id
               </th>
-              <th scope="col" className="px-6 py-4">
+              {/* <th scope="col" className="px-6 py-4">
                 Blockchain
               </th>
               <th scope="col" className="px-6 py-4">
                 Amount
-              </th>
+              </th> */}
               <th scope="col" className="px-6 py-4 w-44">
                 Payment link
               </th>
@@ -86,8 +86,8 @@ export default function Payments() {
                   >
                     {payment.id}
                   </th>
-                  <td className="px-6 py-4">{payment.blockchain}</td>
-                  <td className="px-6 py-4">{payment.amount}</td>
+                  {/* <td className="px-6 py-4">{payment.blockchain}</td>
+                  <td className="px-6 py-4">{payment.amount}</td> */}
                   <td className="px-6 py-4 text-blue-700 hover:underline">
                     <a
                       href={`${config.clientBase}payments/complete/${payment.id}`}
